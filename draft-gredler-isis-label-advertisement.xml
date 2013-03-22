@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<?rfc toc="yes"?>
+<?rfc tocompact="yes"?>
+<?rfc tocdepth="4"?>
+<?rfc tocindent="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes" ?>
+<?rfc comments="yes"?>
+<?rfc inline="yes"?>
+<?rfc compact="yes" ?>
+<?rfc subcompact="no" ?>
+<rfc category="std" docName="draft-gredler-isis-label-advertisement-00" ipr="trust200902">
+
+  <!-- ***** FRONT MATTER ***** -->
+
+  <front>
+    <title>Advertising MPLS labels in IS-IS</title>
+
+    <!-- add 'role="editor"' below for the editors if appropriate -->
+
+    <author fullname="Hannes Gredler" initials="H." surname="Gredler">
+      <organization>Juniper Networks, Inc.</organization>
+      <address>
+	<postal>
+	  <street>1194 N. Mathilda Ave.</street>
+	  <city>Sunnyvale</city>
+	  <region>CA</region>
+	  <code>94089</code>
+	  <country>US</country>
+	</postal>
+	<email>hannes@juniper.net</email>
+      </address>
+    </author>
+
+    <date day="25" month="March" year="2013"/>
+
+    <area>Routing</area>
+
+    <workgroup>IS-IS for IP Internets Working Group</workgroup>
+
+    <keyword>MPLS</keyword>
+    <keyword>IGP</keyword>
+    <keyword>IS-IS</keyword>
+    <keyword>Label advertisement</keyword>
+
+    <abstract>
+      <t>Historically intra-AS MPLS label distribution was driven by
+      protocols like LDP and RSVP. Both of those protocols are session
+      oriented. In order to obtain a particular routers label binding for a
+      given destination FEC one needs to have first an established session
+      with that node.</t>
+
+      <t><xref target="I-D.gredler-rtgwg-igp-label-advertisement">
+	Advertising MPLS labels in IGPs advertisement</xref>
+	describes several use cases where utilizing the flooding machinery
+	of link-state protocols for MPLS label distribution makes sense</t>
+
+	<t>This document describes the protocol extension to distribute
+	MPLS labels by the IS-IS protocol.</t>
+    </abstract>
+
+    <note title="Requirements Language">
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+      document are to be interpreted as described in <xref
+      target="RFC2119">RFC 2119</xref>.</t>
+    </note>
+  </front>
+
+  <middle>
+    <section title="Introduction">
+      <t>MPLS label allocations are predominantly distributed by using
+      the LDP <xref target="RFC5036"/>, RSVP <xref target="RFC5151"/> or
+      labeled BGP <xref target="RFC3107"/> protocol. All of those protocols
+      have in common that they are session oriented, which means that in
+      order to learn the Label Information database of a particular router
+      one needs to have a direct control-plane session using the given
+      protocol.</t>
+
+      <t>There are a couple of interesting <xref target="I-D.gredler-rtgwg-igp-label-advertisement">use cases</xref>
+      where the consumer of a MPLS label allocation may not be adjacent to the router
+      having allocated the label. Bringing up an explicit session using
+      existing label distribution protocols between the non-adjacent label
+      allocator and the label consumer is the existing remedy for this
+      dilemma.</t>
+
+      <t> Depending on the application, retrieval and setup of
+      forwarding state of such >1 hop label allocations may only be
+      transient.  As such configuring and un-configuring the explicit session
+      is an operational burden and therefore should be avoided.</t>
+
+      <t>This document discusses 
+      </t> 
+
+    </section>
+
+    <section title="MPLS label TLV">
+
+      <t>The MPLS Label TLV has type TBA and contains a data structure
+      consisting of:</t>
+
+      <t><list style="symbols">
+	  <t>4 octets of Advertising TE-Router ID</t>
+	  <t>1 octet of flags, consisting of:</t>
+	  <t><list style="symbols">
+	    <t>1 bit of flooding-scope information (S bit)</t>
+	    <t>1 bit of up/down information (U/D bit)</t>
+	    <t>6 bits reserved</t>
+	  </list></t>
+	  <t>1 octet of length of sub-TLVs</t>
+	  <t>0-246 octets of sub-TLVs, where each sub-TLV consists of a
+	  sequence of:</t>
+	  <t><list style="symbols">
+	    <t>1 octet of sub-type</t>
+	    <t>1 octet of length of the value field of the sub-TLV</t>
+	    <t>0-244 octets of value</t>
+	  </list></t>
+	</list></t>	
+
+    </section>
+
+    <section anchor="Acknowledgements" title="Acknowledgements">
+      <t>Many thanks to Yakov Rehkter his useful comments.</t>
+    </section>
+
+    <section anchor="IANA" title="IANA Considerations">
+      <t>This memo request one TLV and a some subTLV for carrying the label value.</t>
+      <!--FIXME-->
+    </section>
+
+    <section anchor="Security" title="Security Considerations">
+      <t> This document does not introduce any change in terms of IS-IS
+      security. It simply proposes to flood MPLS label information via the IGP.
+      All exisiting procedures to ensure message integrety do apply here.
+      </t>
+    </section>
+  </middle>
+
+  <!--  *****BACK MATTER ***** -->
+
+  <back>
+
+    <references title="Normative References">
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3107.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5036.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5151.xml"?>
+    </references>
+
+    <references title="Informative References">
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-gredler-rtgwg-igp-label-advertisement-02.xml"?>
+    </references>
+
+  </back>
+</rfc>
