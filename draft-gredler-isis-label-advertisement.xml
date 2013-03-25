@@ -139,26 +139,52 @@
 	  </list></t>
 	</list></t>	
 
-	<t>Flags
-        <list style="hanging">
 
-	  <t>Up/Down Bit: A router may flood MPLS label information across level boundaries.
-	  In order to prevent flooding loops, a router will Set the Up/Down (U-Bit)
-	  when propgating from Level 2 down to Level 1. This is done as per the
-	  procedures for IP Prefixes lined out <xref target="RFC5302">RFC 5302</xref>.
+	<section title="Flags">
+	  <t>Flags
+	  <list style="hanging">
+
+	    <t>Up/Down Bit: A router may flood MPLS label information across level boundaries.
+	    In order to prevent flooding loops, a router will Set the Up/Down (U-Bit)
+	    when propgating from Level 2 down to Level 1. This is done as per the
+	    procedures for IP Prefixes lined out <xref target="RFC5302">RFC 5302</xref>.
+	    </t>
+
+	    <t>Router Local/ Domain Wide Bit: This bit gets set if domain wide labels are used.
+	    This bit is unset if a Label is from advertising router local label space.
+	    Domain wide labels are not defined in this document.</t>
+
+	    <t>UHP / PHP Bit: This bit may only be set for domain wide labels.
+	    Domain wide labels are not defined in this document</t>
+
+	    <t>subTLV present Bit: Set if further subTLVs e.g. for describing a ERO are present.</t>
+	  </list></t>
+	</section>
+
+	<section title="ERO subTLV">
+
+	  <t>The ERO subTLV describes the path leading to the tail-end of a advertised label.
+	  It consists of a sequence of {Family, IP Adress} tuples, describing a sequence of
+	  links or nodes.
 	  </t>
 
-	  <t>subTLV present Bit:</t>
+        <figure anchor="ERO-subTLV-figure" title="ERO subTLV format">
+          <artwork>
+   0                   1                   2                   3
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+  +-+-+-+-+-+-+-+-+
+  |     Family    | 
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                       IP Address (variable)                   | 
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  </artwork>
+        </figure>
 
-	  <t>Router Local/ Domain Wide Bit:</t>
-
-	  <t>UHP / PHP Bit: </t>
-
-	</list></t>
-    </section>
-
-    <section title="Interarea operation">
-	<t>FIXME</t>
+	<t><list style="symbols">
+	  <t>1 octets of Adress Family</t>
+	  <t>4 or 16 octets of IP address</t>
+	</list></t>	
+	</section>
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -166,7 +192,7 @@
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>This memo request one TLV and a some subTLV for carrying the label value.</t>
+      <t>This memo request one TLV and a one subTLV for carrying the label value and its ERO.</t>
       <!--FIXME-->
     </section>
 
