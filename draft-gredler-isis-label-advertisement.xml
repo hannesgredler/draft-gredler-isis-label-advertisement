@@ -78,7 +78,8 @@
       one needs to have a direct control-plane session using the given
       protocol.</t>
 
-      <t>There are a couple of interesting <xref target="I-D.gredler-rtgwg-igp-label-advertisement">use cases</xref>
+      <t>There are a couple of
+      <xref target="I-D.gredler-rtgwg-igp-label-advertisement">use cases</xref>
       where the consumer of a MPLS label allocation may not be adjacent to the router
       having allocated the label. Bringing up an explicit session using
       existing label distribution protocols between the non-adjacent label
@@ -90,34 +91,74 @@
       transient.  As such configuring and un-configuring the explicit session
       is an operational burden and therefore should be avoided.</t>
 
-      <t>This document discusses 
+      <t>This document decribes a single IS-IS protocol extension which allows
+      routers to advertise MPLS labels, its inter-area distribution as well
+      as how to advertise MPLS labels sourced from outside the IGP domain. 
       </t> 
 
     </section>
 
     <section title="MPLS label TLV">
+      <t>The MPLS Label TLV may be originated by any TE capable router in an
+      IS-IS domain. A router may advertise MPLS labels along with a path ERO
+      of the underlying label switched path.
+      </t>
 
       <t>The MPLS Label TLV has type TBA and contains a data structure
       consisting of:</t>
 
+        <figure anchor="MPLS-TLV-figure" title="MPLS TLV format">
+          <artwork>
+   0                   1                   2                   3
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                     Advertising TE-Router ID                  | 
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |U|S|W|P|              MPLS Label               |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  </artwork>
+        </figure>
+
       <t><list style="symbols">
 	  <t>4 octets of Advertising TE-Router ID</t>
-	  <t>1 octet of flags, consisting of:</t>
-	  <t><list style="symbols">
-	    <t>1 bit of flooding-scope information (S bit)</t>
-	    <t>1 bit of up/down information (U/D bit)</t>
-	    <t>6 bits reserved</t>
+	  <t>4 bits of flags, consisting of:
+	  <list style="symbols">
+	    <t>1 bit of up/down information (U bit)</t>
+	    <t>1 bit of subTLV present information (S bit)</t>
+	    <t>1 bit of Local/Domain wide information (W bit)</t>
+	    <t>1 bit of PHP information (P bit)</t>
 	  </list></t>
-	  <t>1 octet of length of sub-TLVs</t>
-	  <t>0-246 octets of sub-TLVs, where each sub-TLV consists of a
-	  sequence of:</t>
-	  <t><list style="symbols">
-	    <t>1 octet of sub-type</t>
+	  <t>20 bits of MPLS label information</t>
+	  <t>If S bit is set, 1 octet of length of sub-TLVs</t>
+	  <t>0-248 octets of sub-TLVs, where each sub-TLV consists of a
+	  sequence of:
+	  <list style="symbols">
+	    <t>1 octet of sub-TLV type</t>
 	    <t>1 octet of length of the value field of the sub-TLV</t>
-	    <t>0-244 octets of value</t>
+	    <t>0-246 octets of value</t>
 	  </list></t>
 	</list></t>	
 
+	<t>Flags
+        <list style="hanging">
+
+	  <t>Up/Down Bit: A router may flood MPLS label information across level boundaries.
+	  In order to prevent flooding loops, a router will Set the Up/Down (U-Bit)
+	  when propgating from Level 2 down to Level 1. This is done as per the
+	  procedures for IP Prefixes lined out <xref target="RFC5302">RFC 5302</xref>.
+	  </t>
+
+	  <t>subTLV present Bit:</t>
+
+	  <t>Router Local/ Domain Wide Bit:</t>
+
+	  <t>UHP / PHP Bit: </t>
+
+	</list></t>
+    </section>
+
+    <section title="Interarea operation">
+	<t>FIXME</t>
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -146,6 +187,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3107.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5036.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5151.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5302.xml"?>
     </references>
 
     <references title="Informative References">
