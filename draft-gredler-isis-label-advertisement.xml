@@ -91,7 +91,7 @@
       transient.  As such configuring and un-configuring the explicit session
       is an operational burden and therefore should be avoided.</t>
 
-      <t>This document decribes a single IS-IS protocol extension which allows
+      <t>This document describes a single IS-IS protocol extension which allows
       routers to advertise MPLS labels, its inter-area distribution as well
       as how to advertise MPLS labels sourced from outside the IGP domain. 
       </t> 
@@ -146,7 +146,7 @@
 
 	    <t>Up/Down Bit: A router may flood MPLS label information across level boundaries.
 	    In order to prevent flooding loops, a router will Set the Up/Down (U-Bit)
-	    when propgating from Level 2 down to Level 1. This is done as per the
+	    when propagating from Level 2 down to Level 1. This is done as per the
 	    procedures for IP Prefixes lined out <xref target="RFC5302">RFC 5302</xref>.
 	    </t>
 
