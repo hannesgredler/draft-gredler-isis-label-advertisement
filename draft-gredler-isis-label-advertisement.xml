@@ -199,7 +199,7 @@
     <section anchor="Security" title="Security Considerations">
       <t> This document does not introduce any change in terms of IS-IS
       security. It simply proposes to flood MPLS label information via the IGP.
-      All exisiting procedures to ensure message integrety do apply here.
+      All existing procedures to ensure message integrety do apply here.
       </t>
     </section>
   </middle>
