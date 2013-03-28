@@ -33,7 +33,7 @@
       </address>
     </author>
 
-    <date day="25" month="March" year="2013"/>
+    <date day="29" month="March" year="2013"/>
 
     <area>Routing</area>
 
@@ -98,13 +98,17 @@
 
     </section>
 
+  <section title="Motivation and Applicability">
+    <t>FIXME</t>
+  </section>
+
     <section title="MPLS label TLV">
       <t>The MPLS Label TLV may be originated by any TE capable router in an
       IS-IS domain. A router may advertise MPLS labels along with a path ERO
       of the underlying label switched path.
       </t>
 
-      <t>The MPLS Label TLV has type TBA and contains a data structure
+      <t>The MPLS Label TLV has type 149 and contains a data structure
       consisting of:</t>
 
         <figure anchor="MPLS-TLV-figure" title="MPLS TLV format">
@@ -112,30 +116,26 @@
    0                   1                   2                   3
    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  |                     Advertising TE-Router ID                  | 
+  |U|W|P|    Reserved     |            MPLS Label                 |
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  |U|S|W|P|              MPLS Label               |
-  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
   </artwork>
         </figure>
 
       <t><list style="symbols">
-	  <t>4 octets of Advertising TE-Router ID</t>
-	  <t>4 bits of flags, consisting of:
+	  <t>12 bits of flags, consisting of:
 	  <list style="symbols">
 	    <t>1 bit of up/down information (U bit)</t>
-	    <t>1 bit of subTLV present information (S bit)</t>
 	    <t>1 bit of Local/Domain wide information (W bit)</t>
 	    <t>1 bit of PHP information (P bit)</t>
+	    <t>9 bits are Reserved for future use</t>
 	  </list></t>
 	  <t>20 bits of MPLS label information</t>
-	  <t>If S bit is set, 1 octet of length of sub-TLVs</t>
-	  <t>0-248 octets of sub-TLVs, where each sub-TLV consists of a
+	  <t>0-251 octets of sub-TLVs, where each sub-TLV consists of a
 	  sequence of:
 	  <list style="symbols">
 	    <t>1 octet of sub-TLV type</t>
 	    <t>1 octet of length of the value field of the sub-TLV</t>
-	    <t>0-246 octets of value</t>
+	    <t>0-249 octets of value</t>
 	  </list></t>
 	</list></t>	
 
@@ -143,7 +143,6 @@
 	<section title="Flags">
 	  <t>Flags
 	  <list style="hanging">
-
 	    <t>Up/Down Bit: A router may flood MPLS label information across level boundaries.
 	    In order to prevent flooding loops, a router will Set the Up/Down (U-Bit)
 	    when propagating from Level 2 down to Level 1. This is done as per the
@@ -151,40 +150,173 @@
 	    </t>
 
 	    <t>Router Local/ Domain Wide Bit: This bit gets set if domain wide labels are used.
-	    This bit is unset if a Label is from advertising router local label space.
+	    This bit is unset if the Router isadvertising from its local label space.
 	    Domain wide labels are not defined in this document.</t>
 
 	    <t>UHP / PHP Bit: This bit may only be set for domain wide labels.
 	    Domain wide labels are not defined in this document</t>
-
-	    <t>subTLV present Bit: Set if further subTLVs e.g. for describing a ERO are present.</t>
 	  </list></t>
 	</section>
 
-	<section title="ERO subTLV">
-
-	  <t>The ERO subTLV describes the path leading to the tail-end of a advertised label.
-	  It consists of a sequence of {Family, IP Adress} tuples, describing a sequence of
-	  links or nodes.
+	<section title="IPv4 Prefix ERO subTLV">
+	  <t>The IPv4 ERO subTLV (Type 1) describes a path segment using IPv4 Prefix style of encoding.
+	  Its appearance and semantics have been borrowed from <xref target="RFC3209">
+	  Section 4.3.3.2</xref>.
 	  </t>
 
-        <figure anchor="ERO-subTLV-figure" title="ERO subTLV format">
+	  <t>The 'Prefix Length' field contains the length of the prefix in bits.
+	  Only the most significant octets of the prefix are encoded. I.e. 1
+	  octet for prefix length 1 up to 8, 2 octets for prefix length 9 to
+	  16, 3 octets for prefix length 17 up to 24 and 4 octets for prefix
+	  length 25 up to 32, etc.</t>
+
+        <figure anchor="IPv4-Prefix-ERO-subTLV-figure" title="IPv4 Prefix ERO subTLV format">
           <artwork>
-   0                   1                   2                   3
-   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-  +-+-+-+-+-+-+-+-+
-  |     Family    | 
-  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  |                       IP Address (variable)                   | 
-  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |L|    Type     |     Length    | Prefix Length | IPv4 address  |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   | IPv4 address (continued, variable-length      |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+  </artwork> 
+        </figure>
+	</section> <!-- end IPv4 Prefix ERO subtLV -->
+
+	<section title="IPv6 Prefix ERO subTLV">
+	  <t>The IPv6 ERO subTLV (Type 2) describes a path segment using IPv6 Prefix style of encoding.
+	  Its appearance and semantics have been borrowed from <xref target="RFC3209">
+	  Section 4.3.3.3</xref>.
+	  </t>
+
+	  <t>The 'Prefix Length' field contains the length of the prefix in bits.
+	  Only the most significant octets of the prefix are encoded. I.e. 1
+	  octet for prefix length 1 up to 8, 2 octets for prefix length 9 to
+	  16, 3 octets for prefix length 17 up to 24 and 4 octets for prefix
+	  length 25 up to 32, ...., 16 octets for prefix length 113 up to 128.
+	  </t>
+
+        <figure anchor="IPv6-Prefix-ERO-subTLV-figure" title="IPv6 Prefix ERO subTLV format">
+          <artwork>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |L|    Type     |     Length    | Prefix Length | IPv6 address  |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   | IPv6 address (continued)                                      |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   | IPv6 address (continued)                                      |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   | IPv6 address (continued)                                      |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   | IPv6 address (continued, variable length)     |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
   </artwork>
         </figure>
+	</section> <!-- end IPv6 Prefix ERO subtLV -->
 
-	<t><list style="symbols">
-	  <t>1 octets of Adress Family</t>
-	  <t>4 or 16 octets of IP address</t>
+    </section>
+
+    <section title="Advertising Label Examples">
+      <section title="Pointer to an adjacent Router">
+
+	<t>Router R1 (loopback 192.168.1.1) is connected using a single point-to-point circuit to R2 (loopback 192.168.1.2).</t>
+	<t>Both link IP adresses (IP1 (10.0.1.1) and IP2 (10.0.1.2) are on the same IP subnet.</t>
+
+        <figure anchor="adjacent-router-single-link-example" title="Advertising a Label as pointer to another Router">
+          <artwork>
+   IP1---link1---IP2
+  /                 \
+R1                   R2
+	  </artwork>
+	</figure>
+
+	<t>If R1 would advertise a label to R2 it would encode as follows</t>
+	
+	<t><list style="hangout">
+	  <t>TLV 149: MPLS label N, Flags {}:
+	  <list style="hangout">
+	    <t>IPv4 Prefix ERO subTLV: 192.168.1.2/32, Loose</t>
+	  </list></t>
 	</list></t>	
-	</section>
+
+      </section>
+
+      <section title="Pointer to an adjacent Router using a specific link">
+
+	<t>Router R1 (loopback 192.168.1.1) is connected using two point-to-point circuits to R2 (loopback 192.168.1.2).</t>
+	<t>Both link #1 IP adresses (IP1 (10.0.1.1) and IP2 (10.0.1.2) are on the same IP subnet.</t>
+	<t>Both link #2 IP adresses (IP2 (10.0.2.1) and IP2 (10.0.2.2) are on the same IP subnet.</t>
+
+        <figure anchor="adjacent-router-two-link-example" title="Advertising a Label as pointer to another Router using a specific link">
+          <artwork>
+   IP1---link1---IP2
+  /                 \
+R1                   R2
+  \                 /
+   IP1---link2---IP4
+	  </artwork>
+	</figure>
+
+
+	<t>If R1 would advertise a label to R2, using the link #2 it would encode as follows</t>
+	
+	<t><list style="hangout">
+	  <t>TLV 149: MPLS label N, Flags {}:
+	  <list style="hangout">
+	    <t>IPv4 Prefix ERO subTLV: 10.0.2.2/32, Strict</t>
+	  </list></t>
+	</list></t>	
+
+
+	<t>FIXME</t>
+      </section>
+
+
+      <section title="Advertising a domain-wide Label">
+
+	<t>Router R1 (loopback 192.168.1.1) is connected using a single point-to-point circuit to R2 (loopback 192.168.1.2).</t>
+	<t>Both link IP adresses (IP1 (10.0.1.1) and IP2 (10.0.1.2) are on the same IP subnet.</t>
+
+        <figure anchor="global-label-example" title="Advertising a Domain-wide Label">
+          <artwork>
+   IP1---link1---IP2
+  /                 \
+R1                   R2
+	  </artwork>
+	</figure>
+
+	<t>If R1 would advertise a domain-wide label for itself</t>
+	
+	<t><list style="hangout">
+	  <t>TLV 149: MPLS label N, Flags {W}:
+	  <list style="hangout">
+	    <t>IPv4 Prefix ERO subTLV: 192.168.1.1/32, Strict</t>
+	  </list></t>
+	</list></t>	
+
+	<t>If R2 would advertise a domain-wide label for itself</t>
+	
+	<t><list style="hangout">
+	  <t>TLV 149: MPLS label N, Flags {W}:
+	  <list style="hangout">
+	    <t>IPv4 Prefix ERO subTLV: 192.168.1.2/32, Strict</t>
+	  </list></t>
+	</list></t>	
+
+
+      </section>
+
+      <section title="Pointer to an RSVP LSP">
+	<t>FIXME</t>
+      </section>
+
+      <section title="Pointer to an LDP or BGP LSP">
+	<t>FIXME</t>
+      </section>
+
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -211,6 +343,7 @@
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3107.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3209.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5036.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5151.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5302.xml"?>
