@@ -173,6 +173,8 @@
       can be described.
       </t>
 
+      <!-- FIXME add a node about sequential advertisements of TLVs -->
+
       <t>The MPLS Label TLV has type 149 and contains a data structure
       consisting of:</t>
 
@@ -204,7 +206,6 @@
 	  </list></t>
 	</list></t>	
 
-
 	<section title="Flags">
 	  <t>Flags
 	  <list style="hanging">
@@ -223,6 +224,14 @@
 	    Domain wide labels are defined <xref target="I-D.previdi-filsfils-isis-segment-routing"/>
 	    </t>
 	  </list></t>
+	</section>
+
+	<section title="subTLV support">
+	  <t>
+	    An originating router MAY want to attach one or more subTLVs to the MPLS label TLV.
+	    SubTLVs presence is inferred from the length of the MPLS Label TLV.
+	    If the MPLS Label TLV Length field is > 4 octets then one or more subTLVs are present. 
+	  </t>
 	</section>
 
 	<section title="IPv4 Prefix ERO subTLV">
@@ -287,6 +296,12 @@
     </section>
 
     <section title="Advertising Label Examples">
+      <section title="Sample Topology">
+	<t>
+	The following topology and IP addresses shall be used to describe the 
+	</t>
+      </section>
+
       <section title="Pointer to an adjacent Router">
 
 	<t>Router R1 (loopback 192.168.1.1) is connected using a single point-to-point circuit to R2 (loopback 192.168.1.2).</t>
