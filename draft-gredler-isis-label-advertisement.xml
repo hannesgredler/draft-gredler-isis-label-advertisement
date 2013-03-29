@@ -114,7 +114,7 @@
     both family of TLVs have exisiting protocol semantics, which might not be applicable
     to advertising MPLS labels in a generic fashion. These are specifically:</t>
 
-    <t><list style="numbers">
+    <t><list style="symbols">
       <t>Bi-directionality semantics</t>
       <t>IP path semantics</t>
     </list>
@@ -222,6 +222,9 @@
 
 	    <t>UHP / PHP Bit: This bit may only be set for Domain Wide labels.
 	    Domain wide labels are defined <xref target="I-D.previdi-filsfils-isis-segment-routing"/>
+	    If the P Bit is set then the Originator of this Domain-Wide label requires to
+	    POP of the top label by penultimate routers.
+	    <!-- FIXME add link to PHP behaviour -->
 	    </t>
 	  </list></t>
 	</section>
@@ -298,105 +301,126 @@
     <section title="Advertising Label Examples">
       <section title="Sample Topology">
 	<t>
-	The following topology and IP addresses shall be used to describe the 
+	  The following <xref target="sample-topology">topology</xref> and IP addresses shall be used throughout
+	  the Label advertisment examples.
 	</t>
-      </section>
 
-      <section title="Pointer to an adjacent Router">
-
-	<t>Router R1 (loopback 192.168.1.1) is connected using a single point-to-point circuit to R2 (loopback 192.168.1.2).</t>
-	<t>Both link IP adresses (IP1 (10.0.1.1) and IP2 (10.0.1.2) are on the same IP subnet.</t>
-
-        <figure anchor="adjacent-router-single-link-example" title="Advertising a Label as pointer to another Router">
+        <figure anchor="sample-topology" title="Sample Topology">
           <artwork>
-   IP1---link1---IP2
-  /                 \
-R1                   R2
+
+                    AS1                         :    AS 2
+                                                :
+                     :                          :
+         Level 1     :     Level 2              :
+                     :                          :
++-----+           +-----+-IP3--IP4--+-----+     :
+| R1  +-IP1--IP2--+ R2  |           | R3  |     :
++--+--+           +--+--+-IP5--IP6--+--+--+-IP15-IP16-
+   |                 |                 |        :     \
+  IP3               IP7               IP13      :   +--+--+
+   |                 |                 |        :   |  R7 |
+  IP4               IP8               IP14      :   +--+--+
+   |                 |                 |        :     /
++--+--+           +--+--+           +--+--+-IP17-IP18-
+|  R4 +-IP19-IP20-+ R5  |-IP11-IP12-| R6  |     :
++-----+           +-----+           +-----+     :
+                     :                          :
+                     :                          :
+                     :                          :
 	  </artwork>
 	</figure>
 
-	<t>If R1 would advertise a label to R2 it would encode as follows</t>
-	
-	<t><list style="hangout">
+	<section title="Transport IP addresses and router-IDs">
+	  <t><list style="symbols">
+	    <t>R1: 192.168.1.1</t>
+	    <t>R2: 192.168.1.2</t>
+	    <t>R3: 192.168.1.3</t>
+	    <t>R4: 192.168.1.4</t>
+	    <t>R5: 192.168.1.5</t>
+	    <t>R6: 192.168.1.6</t>
+	    <t>R7: 192.168.1.7</t>
+	  </list></t>	
+	</section>
+
+	<section title="Link IP addresses">
+	  <t><list style="symbols">
+	    <t>R1 to R2 link: 10.0.0.1, 10.0.0.2</t>
+	    <t>R1 to R4 link: 10.0.0.3, 10.0.0.4</t>
+	    <t>R2 to R3 link #1: 10.0.0.3, 10.0.0.4</t>
+	    <t>R2 to R3 link #2: 10.0.0.5, 10.0.0.6</t>
+	    <t>R2 to R5 link: 10.0.0.7, 10.0.0.8</t>
+	    <t>R3 to R6 link: 10.0.0.13, 10.0.0.14</t>
+	    <t>R3 to R7 link: 10.0.0.15, 10.0.0.16</t>
+	    <t>R4 to R5 link: 10.0.0.19, 10.0.0.20</t>
+	    <t>R5 to R6 link: 10.0.0.11, 10.0.0.12</t>
+	    <t>R6 to R7 link: 10.0.0.17, 10.0.0.18</t>
+	  </list></t>	
+	</section>
+
+      </section>
+
+      <section title="Pointer to an adjacent Router">
+	<t>If R1 would advertise a label &lt;N&gt; pointing to R2 it would encode as follows:</t>
+		<t><list style="hangout">
 	  <t>TLV 149: MPLS label N, Flags {}:
 	  <list style="hangout">
 	    <t>IPv4 Prefix ERO subTLV: 192.168.1.2/32, Loose</t>
 	  </list></t>
 	</list></t>	
-
       </section>
 
       <section title="Pointer to an adjacent Router using a specific link">
-
-	<t>Router R1 (loopback 192.168.1.1) is connected using two point-to-point circuits to R2 (loopback 192.168.1.2).</t>
-	<t>Both link #1 IP adresses (IP1 (10.0.1.1) and IP2 (10.0.1.2) are on the same IP subnet.</t>
-	<t>Both link #2 IP adresses (IP2 (10.0.2.1) and IP2 (10.0.2.2) are on the same IP subnet.</t>
-
-        <figure anchor="adjacent-router-two-link-example" title="Advertising a Label as pointer to another Router using a specific link">
-          <artwork>
-   IP1---link1---IP2
-  /                 \
-R1                   R2
-  \                 /
-   IP1---link2---IP4
-	  </artwork>
-	</figure>
-
-
-	<t>If R1 would advertise a label to R2, using the link #2 it would encode as follows</t>
+	<t>If R2 would advertise a label &lt;N&gt; pointing to R3, using the link #2 it would encode as follows</t>
 	
 	<t><list style="hangout">
-	  <t>TLV 149: MPLS label N, Flags {}:
+	  <t>TLV 149: MPLS label &lt;N&gt;, Flags {}:
 	  <list style="hangout">
-	    <t>IPv4 Prefix ERO subTLV: 10.0.2.2/32, Strict</t>
+	    <t>IPv4 Prefix ERO subTLV: 10.0.0.6/32, Strict</t>
 	  </list></t>
 	</list></t>	
-
-
-	<t>FIXME</t>
       </section>
 
-
       <section title="Advertising a domain-wide Label">
-
-	<t>Router R1 (loopback 192.168.1.1) is connected using a single point-to-point circuit to R2 (loopback 192.168.1.2).</t>
-	<t>Both link IP adresses (IP1 (10.0.1.1) and IP2 (10.0.1.2) are on the same IP subnet.</t>
-
-        <figure anchor="global-label-example" title="Advertising a Domain-wide Label">
-          <artwork>
-   IP1---link1---IP2
-  /                 \
-R1                   R2
-	  </artwork>
-	</figure>
-
-	<t>If R1 would advertise a domain-wide label for itself</t>
-	
+	<t>If R1 would advertise a domain-wide label &lt;N&gt; pointing to self, PHP</t>
 	<t><list style="hangout">
-	  <t>TLV 149: MPLS label N, Flags {W}:
+	  <t>TLV 149: MPLS label &lt;N&gt;, Flags {W, P}:
 	  <list style="hangout">
 	    <t>IPv4 Prefix ERO subTLV: 192.168.1.1/32, Strict</t>
 	  </list></t>
 	</list></t>	
 
-	<t>If R2 would advertise a domain-wide label for itself</t>
-	
+	<t>If R2 would advertise a domain-wide label &lt;N&gt; for itself, UHP</t>
 	<t><list style="hangout">
-	  <t>TLV 149: MPLS label N, Flags {W}:
+	  <t>TLV 149: MPLS label &lt;N&gt;, Flags {W}:
 	  <list style="hangout">
 	    <t>IPv4 Prefix ERO subTLV: 192.168.1.2/32, Strict</t>
 	  </list></t>
 	</list></t>	
-
-
       </section>
 
       <section title="Pointer to an RSVP LSP">
-	<t>FIXME</t>
+	<t>Consider a RSVP LSP name "R2-to-R6" traversing (R2 to R3 using link #1, R6):</t>
+	<t>If R2 would advertise a label &lt;N&gt; to R3, using the link #2 it would encode as follows</t>
+	
+	<t><list style="hangout">
+	  <t>TLV 149: MPLS label &lt;N&gt;, Flags {}:
+	  <list style="hangout">
+	    <t>IPv4 Prefix ERO subTLV: 10.0.0.4/32, Strict</t>
+	    <t>IPv4 Prefix ERO subTLV: 192.168.1.6/32, Loose</t>
+	  </list></t>
+	</list></t>	
       </section>
 
-      <section title="Pointer to an LDP or BGP LSP">
-	<t>FIXME</t>
+      <section title="Pointer to an LDP LSP">
+	<t>Consider a LDP LSP label  &lt;N&gt; pointing to FEC 172.16.0.0/12:</t>
+	<t>If R2 would re-advertise the LDP FEC it would encode as follows</t>
+	
+	<t><list style="hangout">
+	  <t>TLV 149: MPLS label &lt;N&gt;, Flags {}:
+	  <list style="hangout">
+	    <t>IPv4 Prefix ERO subTLV: 172.16.0.0/12, Loose</t>
+	  </list></t>
+	</list></t>	
       </section>
 
     </section>
