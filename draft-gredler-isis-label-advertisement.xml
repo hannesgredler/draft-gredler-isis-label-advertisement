@@ -156,19 +156,21 @@
     </section>
 
     <section title="Motivation">
-    <t>MPLS label advertisement for IGPs should not be done using existing IGP protocol machinery as
-    hard-bending existing semantics may go too far and have a destabilization effect.
-    This document describes protocol extensions which allows MPLS label advertisment
-    in IS-IS just re-using the flooding machinery and thereby not
-    inheriting any unwanted semantics from existing protocols.</t>
+    <t>MPLS label advertisement for IGPs is a new forwarding paradim which hardly can be expressed
+    using existing IGP protocol machinery.
+    This document describes protocol extensions which allows MPLS label advertisement
+    in IS-IS by just re-using the flooding machinery and thereby not
+    inheriting any unwanted, unrelated semantics from existing protocol machinery.</t>
     </section>
 
   </section>
 
     <section title="MPLS label TLV">
-      <t>The MPLS Label TLV may be originated by any TE capable router in an
-      IS-IS domain. A router may advertise MPLS labels along with path ERO
-      segments describing the underlying label switched path.
+      <t>The MPLS Label TLV may be originated by any <xref target="RFC5305">Traffic Engineering</xref>
+      capable router in an IS-IS domain. A router may advertise MPLS labels along with so called 'ERO'
+      path segments describing the label switched path. Since ERO style path notation allows to
+      express pointers to link and node IP adresses any label switched path, sourced by any protocol
+      can be described.
       </t>
 
       <t>The MPLS Label TLV has type 149 and contains a data structure
@@ -410,6 +412,7 @@ R1                   R2
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5036.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5151.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5302.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5305.xml"?>
     </references>
 
     <references title="Informative References">
