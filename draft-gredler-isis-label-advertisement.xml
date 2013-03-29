@@ -216,10 +216,12 @@
 
 	    <t>Router Local/ Domain Wide Bit: This bit gets set if domain wide labels are used.
 	    This bit is unset if the Router isadvertising from its local label space.
-	    Domain wide labels are not defined in this document.</t>
+	    Domain wide labels are defined <xref target="I-D.previdi-filsfils-isis-segment-routing"/>
+	    </t>
 
-	    <t>UHP / PHP Bit: This bit may only be set for domain wide labels.
-	    Domain wide labels are not defined in this document</t>
+	    <t>UHP / PHP Bit: This bit may only be set for Domain Wide labels.
+	    Domain wide labels are defined <xref target="I-D.previdi-filsfils-isis-segment-routing"/>
+	    </t>
 	  </list></t>
 	</section>
 
