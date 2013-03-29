@@ -98,14 +98,77 @@
 
     </section>
 
-  <section title="Motivation and Applicability">
-    <t>FIXME</t>
+  <section title="Motivation, Rationale and Applicability">
+    <t>Distributing MPLS labels using IS-IS has been described in
+    <xref target="I-D.previdi-filsfils-isis-segment-routing"> Segment
+    Routing</xref>. The authors propose to re-use the IS-Reach TLVs (22,
+    23, 222) and Extended IP Prefix TLVs (135, 236) for carrying the label
+    information.  While retrofitting existing protocol machinery for new
+    purposes is generally a good thing, <xref
+    target="I-D.previdi-filsfils-isis-segment-routing">Segment
+    Routing</xref> falls short of adressing some use-cases defined in
+    <xref target="I-D.gredler-rtgwg-igp-label-advertisement"/>.
+    </t>
+
+    <t>The dominant issue of re-using IS-Reach TLVs and the extended IP Prefix TLVs is that
+    both family of TLVs have exisiting protocol semantics, which might not be applicable
+    to advertising MPLS labels in a generic fashion. These are specifically:</t>
+
+    <t><list style="numbers">
+      <t>Bi-directionality semantics</t>
+      <t>IP path semantics</t>
+    </list>
+    </t>
+
+    <section title="Issue: Bi-directionality semantics">
+      <t>
+      'Bi-directionality semantics', affects the complexity around advertisement of unidirectional LSPs.
+      Label advertisement of per-link labels or <xref
+      target="I-D.previdi-filsfils-isis-segment-routing">'Adj-SIDs'</xref>
+      is done using IS-reach TLVs. Usually implementations need to have
+      an adjacency in 'Up' state prior to advertising this adjacency
+      as IS-reach TLV in its Link State PDUs (LSPs).
+      In order to advertise a per-link LSP an implementation first needs to have
+      an adjacency, which only transitions to 'Up' state after passing the 3-way
+      check. This implies bi-directionality. If an implementation wants to advertise
+      per-link LSPs to e.g. outside the IGP domain then it would need
+      to fake-up an adjacency. Bending existing IGP Adjacency code to support
+      such cases defeats the purpose of re-using existing functionality as there is
+      not much common functionality to be shared.
+      </t>
+    </section>
+
+    <section title="Issue: IP path semantics">
+      <t>
+	LSPs pointing to a Node are advertised as <xref
+	target="I-D.previdi-filsfils-isis-segment-routing">'Node-SIDs'</xref>
+	using the family of extended IP Reach TLVs. That means that in order
+	to advertise a LSP, one is inheriting the semantics of advertising an
+	IP path. Consider router A has got exisiting LSPs to its entire one-hop
+	neighborhood and is re-advertising those LSPs using IP reachability semantics.
+	Now we have two exact matching IP advertisements. One from the owning router
+	(router B) which advertises its stable transport loopback address and another one
+	from router A re-advertising a LSP path to router B. Existing routing software
+	may get confused now as the 'stable transport' address shows up from multiple places
+	in the network and more worse the IP forwarding path for control-plane protocols may get
+	mingled with the MPLS dataplane. 
+      </t>
+    </section>
+
+    <section title="Motivation">
+    <t>MPLS label advertisement for IGPs should not be done using existing IGP protocol machinery as
+    hard-bending existing semantics may go too far and have a destabilization effect.
+    This document describes protocol extensions which allows MPLS label advertisment
+    in IS-IS just re-using the flooding machinery and thereby not
+    inheriting any unwanted semantics from existing protocols.</t>
+    </section>
+
   </section>
 
     <section title="MPLS label TLV">
       <t>The MPLS Label TLV may be originated by any TE capable router in an
-      IS-IS domain. A router may advertise MPLS labels along with a path ERO
-      of the underlying label switched path.
+      IS-IS domain. A router may advertise MPLS labels along with path ERO
+      segments describing the underlying label switched path.
       </t>
 
       <t>The MPLS Label TLV has type 149 and contains a data structure
@@ -324,7 +387,7 @@ R1                   R2
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>This memo request one TLV and a one subTLV for carrying the label value and its ERO.</t>
+      <t>This memo request one TLV and a two subTLVs for carrying the label value and its ERO.</t>
       <!--FIXME-->
     </section>
 
@@ -351,6 +414,7 @@ R1                   R2
 
     <references title="Informative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-gredler-rtgwg-igp-label-advertisement-02.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-previdi-filsfils-isis-segment-routing-02.xml"?>
     </references>
 
   </back>
