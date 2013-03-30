@@ -92,8 +92,8 @@
       is an operational burden and therefore should be avoided.</t>
 
       <t>This document describes a single IS-IS protocol extension which allows
-      routers to advertise MPLS labels, its inter-area distribution as well
-      as how to advertise MPLS labels sourced from outside the IGP domain. 
+      routers to advertise MPLS labels within and beyond an IGP domain, and
+      controlling inter-area distribution.
       </t> 
 
     </section>
@@ -310,7 +310,7 @@
       <section title="Sample Topology">
 	<t>
 	  The following <xref target="sample-topology">topology</xref> and IP addresses shall be used throughout
-	  the Label advertisment examples.
+	  the Label advertisement examples.
 	</t>
 
         <figure anchor="sample-topology" title="Sample Topology">
