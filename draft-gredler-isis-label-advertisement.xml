@@ -33,7 +33,7 @@
       </address>
     </author>
 
-    <date day="29" month="March" year="2013"/>
+    <date day="30" month="March" year="2013"/>
 
     <area>Routing</area>
 
@@ -173,7 +173,15 @@
       can be described.
       </t>
 
-      <!-- FIXME add a node about sequential advertisements of TLVs -->
+      <t>Due to the limited size of subTLV space (See <xref
+      target="RFC5311"/> section 4.5 for details), The MPLS Label TLV has
+      cumulative rather than canceling semantics. If a router originates
+      more than one MPLS Label TLV with the same Label value, then the
+      subTLVs of the second, third, etc. TLV are accumulated. Since some
+      subTLVs represent an ordered set (e.g. ERO subTLVs) and in order to
+      not complicate the cross-fragment tracking logic, all subTLVs for a
+      given label value MUST be present in a single IS-IS fragment.
+      </t>
 
       <t>The MPLS Label TLV has type 149 and contains a data structure
       consisting of:</t>
@@ -454,6 +462,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5151.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5302.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5305.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5311.xml"?>
     </references>
 
     <references title="Informative References">
