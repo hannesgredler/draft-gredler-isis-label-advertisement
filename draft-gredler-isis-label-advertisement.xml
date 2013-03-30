@@ -182,27 +182,27 @@
           <artwork>
    0                   1                   2                   3
    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  |U|W|P|    Reserved     |            MPLS Label                 |
-  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |U|W|P|R|            MPLS Label                 |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
   </artwork>
         </figure>
 
       <t><list style="symbols">
-	  <t>12 bits of flags, consisting of:
+	  <t>4 bits of flags, consisting of:
 	  <list style="symbols">
 	    <t>1 bit of up/down information (U bit)</t>
 	    <t>1 bit of Local/Domain wide information (W bit)</t>
 	    <t>1 bit of PHP information (P bit)</t>
-	    <t>9 bits are Reserved for future use</t>
+	    <t>3 bit is reserved for future use</t>
 	  </list></t>
 	  <t>20 bits of MPLS label information</t>
-	  <t>0-251 octets of sub-TLVs, where each sub-TLV consists of a
+	  <t>0-252 octets of sub-TLVs, where each sub-TLV consists of a
 	  sequence of:
 	  <list style="symbols">
 	    <t>1 octet of sub-TLV type</t>
 	    <t>1 octet of length of the value field of the sub-TLV</t>
-	    <t>0-249 octets of value</t>
+	    <t>0-250 octets of value</t>
 	  </list></t>
 	</list></t>	
 
@@ -233,7 +233,7 @@
 	  <t>
 	    An originating router MAY want to attach one or more subTLVs to the MPLS label TLV.
 	    SubTLVs presence is inferred from the length of the MPLS Label TLV.
-	    If the MPLS Label TLV Length field is > 4 octets then one or more subTLVs are present. 
+	    If the MPLS Label TLV Length field is > 3 octets then one or more subTLVs are present. 
 	  </t>
 	</section>
 
