@@ -202,7 +202,7 @@
 	    <t>1 bit of up/down information (U bit)</t>
 	    <t>1 bit of Local/Domain wide information (W bit)</t>
 	    <t>1 bit of PHP information (P bit)</t>
-	    <t>3 bit is reserved for future use</t>
+	    <t>1 bit is reserved for future use</t>
 	  </list></t>
 	  <t>20 bits of MPLS label information</t>
 	  <t>0-252 octets of sub-TLVs, where each sub-TLV consists of a
@@ -431,10 +431,67 @@
 	</list></t>	
       </section>
 
+      <section title="Interarea advertisement of diverse paths">
+	<t>Consider two R2-&gt;R6 paths: {R2, R3, R6} and {R2, R5, R6}</t>
+	<t>Consider two R5-&gt;R3 paths: {R5, R2, R3} and {R5, R6, R3}</t>
+
+	<t>R2 encodes its two paths to R6 as follows:</t>
+	
+	<t><list style="hangout">
+	  <t>TLV 149: MPLS label &lt;N1&gt;, Flags {}:
+	  <list style="hangout">
+	    <t>IPv4 Prefix ERO subTLV: 192.168.1.3, Loose</t>
+	    <t>IPv4 Prefix ERO subTLV: 192.168.1.6, Loose</t>
+	  </list></t>
+	  <t>TLV 149: MPLS label &lt;N2&gt;, Flags {}:
+	  <list style="hangout">
+	    <t>IPv4 Prefix ERO subTLV: 192.168.1.5, Loose</t>
+	    <t>IPv4 Prefix ERO subTLV: 192.168.1.6, Loose</t>
+	  </list></t>
+	</list></t>	
+
+	<t>R5 encodes its two paths to R3 as follows:</t>
+	
+	<t><list style="hangout">
+	  <t>TLV 149: MPLS label &lt;N1&gt;, Flags {}:
+	  <list style="hangout">
+	    <t>IPv4 Prefix ERO subTLV: 192.168.1.2, Loose</t>
+	    <t>IPv4 Prefix ERO subTLV: 192.168.1.3, Loose</t>
+	  </list></t>
+	  <t>TLV 149: MPLS label &lt;N2&gt;, Flags {}:
+	  <list style="hangout">
+	    <t>IPv4 Prefix ERO subTLV: 192.168.1.6, Loose</t>
+	    <t>IPv4 Prefix ERO subTLV: 192.168.1.3, Loose</t>
+	  </list></t>
+	</list></t>	
+
+	<t>
+	  A receiving L1 router does see now all 4 paths and may decide
+	  to load-balance across all or a subset of them.
+	</t>
+
+	<!-- FIXME, complete -->
+
+      </section>
+
+
+
+    </section>
+
+    <section title="Intra Area Protocol Procedures">
+      <t>
+	FIXME
+      </t>
+    </section>
+
+    <section title="Inter Area Protocol Procedures">
+      <t>
+	FIXME
+      </t>
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
-      <t>Many thanks to Yakov Rehkter his useful comments.</t>
+      <t>Many thanks to Yakov Rehkter for his useful comments.</t>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
