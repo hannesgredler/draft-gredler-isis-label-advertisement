@@ -507,11 +507,9 @@
 	  A receiving L1 router does see now all 4 paths and may decide
 	  to load-balance across all or a subset of them.
 	</t>
-
-	<!-- FIXME, complete -->
-
       </section>
-    </section>
+
+    </section> <!-- end 'Advertising Label Examples' -->
 
     <section title="Inter Area Protocol Procedures">
       <section title="Applicability">
