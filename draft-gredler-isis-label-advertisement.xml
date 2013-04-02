@@ -145,14 +145,14 @@
 	target="I-D.previdi-filsfils-isis-segment-routing">'Node-SIDs'</xref>
 	using the family of extended IP Reach TLVs. That means that in order
 	to advertise a LSP, one is inheriting the semantics of advertising an
-	IP path. Consider router A has got exisiting LSPs to its entire one-hop
+	IP path. Consider router A has got existing LSPs to its entire one-hop
 	neighborhood and is re-advertising those LSPs using IP reachability semantics.
 	Now we have two exact matching IP advertisements. One from the owning router
 	(router B) which advertises its stable transport loopback address and another one
 	from router A re-advertising a LSP path to router B. Existing routing software
 	may get confused now as the 'stable transport' address shows up from multiple places
 	in the network and more worse the IP forwarding path for control-plane protocols may get
-	mingled with the MPLS dataplane. 
+	mingled with the MPLS data plane. 
       </t>
     </section>
 
@@ -173,7 +173,7 @@
 
       <t>
 	A protocol for advertising MPLS label switched paths, should
-	be generic enough to express paths sourced by exisiting MPLS LSPs,
+	be generic enough to express paths sourced by existing MPLS LSPs,
 	such that ingress routers can flexibly combine them according to
 	application needs.
       </t>
@@ -182,7 +182,7 @@
     <section title="Motivation">
       <t>
 	IGP advertisement of MPLS label switched paths requires a new set of
-	protocol semeantics (path paradigm), which hardly can be expressed using
+	protocol semantics (path paradigm), which hardly can be expressed using
 	the existing IS-IS protocol.  This document describes IS-IS protocol extensions
 	which allows generic advertisement of MPLS label switched paths in IS-IS.
       </t>
@@ -194,7 +194,7 @@
       <t>The MPLS Label TLV may be originated by any <xref target="RFC5305">Traffic Engineering</xref>
       capable router in an IS-IS domain. A router may advertise MPLS labels along with so called 'ERO'
       path segments describing the label switched path. Since ERO style path notation allows to
-      express pointers to link and node IP adresses any label switched path, sourced by any protocol
+      express pointers to link and node IP addresses any label switched path, sourced by any protocol
       can be described.
       </t>
 
@@ -249,7 +249,7 @@
 	    </t>
 
 	    <t>Router Local/ Domain Wide Bit: This bit gets set if domain wide labels are used.
-	    This bit is unset if the Router isadvertising from its local label space.
+	    This bit is unset if the Router is advertising from its local label space.
 	    Domain wide labels are defined <xref target="I-D.previdi-filsfils-isis-segment-routing"/>
 	    </t>
 
@@ -527,7 +527,7 @@
     <section anchor="Security" title="Security Considerations">
       <t> This document does not introduce any change in terms of IS-IS
       security. It simply proposes to flood MPLS label information via the IGP.
-      All existing procedures to ensure message integrety do apply here.
+      All existing procedures to ensure message integrity do apply here.
       </t>
     </section>
   </middle>
