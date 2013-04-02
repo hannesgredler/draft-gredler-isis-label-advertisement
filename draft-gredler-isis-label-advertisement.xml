@@ -547,8 +547,10 @@
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>This memo request one TLV and a two subTLVs for carrying the label value and its ERO.</t>
-      <!--FIXME-->
+      <t>
+	This memo request allocation of TLV 149 for carrying the label value and
+	two subTLVs (1, 2) for describing its path using ERO style segments.
+      </t>
     </section>
 
     <section anchor="Security" title="Security Considerations">
