@@ -329,6 +329,19 @@
         </figure>
 	</section> <!-- end IPv6 Prefix ERO subtLV -->
 
+	<section title="Prefix ERO subTLV path semantics">
+	  <t>
+	    All 'Prefix ERO' information represents and ordered set
+	    which describes the segments of a label-switched path. The last Prefix
+	    ERO subTLV describes the segment closes to the egress point of the
+	    LSP. Contrary the first Prefix ERO subTLV describes the first segment
+	    of a label switched path. If a router extends or stitches a label
+	    switched path it prepends the new segments path information to the
+	    Prefix ERO list.
+	  </t>
+	</section>
+
+
     </section>
 
     <section title="Advertising Label Examples">
@@ -498,21 +511,35 @@
 	<!-- FIXME, complete -->
 
       </section>
-
-
-
-    </section>
-
-    <section title="Intra Area Protocol Procedures">
-      <t>
-	FIXME
-      </t>
     </section>
 
     <section title="Inter Area Protocol Procedures">
-      <t>
-	FIXME
-      </t>
+      <section title="Applicability">
+	<t>
+	  Propagation of a MPLS LSP across a level boundary is a local policy decision.
+	</t>
+      </section>
+
+      <section title="Data plane operations">
+	<t>
+	If local policy dictates that a given L1L2 router needs to
+	re-advertise a MPLS LSPs from one Level to another then it MUST
+	allocate a new label and program its label forwarding table to connect
+	the new label to the path in the respective other level. Depending on
+	how to reach the re-advertised LSP, this is typically done using
+	a MPLS 'SWAP' or 'SWAP/PUSH' data plane operation.
+	</t>
+      </section>
+
+      <section title="Control plane operations">
+	<t>
+	If local policy dictates that a given L1L2 router needs to
+	re-advertise a MPLS LSPs from one Level to another then it
+	must prepend its "Traffic-Engineering-ID" as a loose hop in the
+	Prefix ERO subTLV list.  
+	</t>
+      </section>
+
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
