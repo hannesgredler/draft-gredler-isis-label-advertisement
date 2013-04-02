@@ -33,7 +33,7 @@
       </address>
     </author>
 
-    <date day="30" month="March" year="2013"/>
+    <date day="2" month="April" year="2013"/>
 
     <area>Routing</area>
 
@@ -110,13 +110,14 @@
     <xref target="I-D.gredler-rtgwg-igp-label-advertisement"/>.
     </t>
 
-    <t>The dominant issue of re-using IS-Reach TLVs and the extended IP Prefix TLVs is that
+    <t>The dominant issue around re-using IS-Reach TLVs and the extended IP Prefix TLVs is that
     both family of TLVs have exisiting protocol semantics, which might not be applicable
-    to advertising MPLS labels in a generic fashion. These are specifically:</t>
+    to advertising MPLS label switched paths in a generic fashion. These are specifically:</t>
 
     <t><list style="symbols">
       <t>Bi-directionality semantics</t>
       <t>IP path semantics</t>
+      <t>Lack of 'path' notion</t>
     </list>
     </t>
 
@@ -155,12 +156,36 @@
       </t>
     </section>
 
+    <section title="Issue: Lack of 'path' notion">
+      <t>
+	Both IS-Reach TLVs and IP Prefix Reachability TLVs have a
+	limited semantics describing MPLS label-switched paths in the sense of
+	a 'path'.  Both encoding formats allow to express a pointer to some
+	specific router, but not to describe a MPLS label switched path
+	containing all of its path segments. <xref
+	target="I-D.previdi-filsfils-isis-segment-routing"/> allows to define
+	'Forwarding Adjacencies' as per <xref target="RFC4206"/>.  The way to
+	describe a path of a given forwarding adjacency is to enlist a list of
+	"Segment IDs". That implies that nodes which do not yet participate in
+	'Segment routing' or are outside of a 'Segment routing' domain can not
+	be expressed using those path semantics.
+      </t>
+
+      <t>
+	A protocol for advertising MPLS label switched paths, should
+	be generic enough to express paths sourced by exisiting MPLS LSPs,
+	such that ingress routers can flexibly combine them according to
+	application needs.
+      </t>
+    </section>
+
     <section title="Motivation">
-    <t>MPLS label advertisement for IGPs is a new forwarding paradim which hardly can be expressed
-    using existing IGP protocol machinery.
-    This document describes protocol extensions which allows MPLS label advertisement
-    in IS-IS by just re-using the flooding machinery and thereby not
-    inheriting any unwanted, unrelated semantics from existing protocol machinery.</t>
+      <t>
+	IGP advertisement of MPLS label switched paths requires a new set of
+	protocol semeantics (path paradigm), which hardly can be expressed using
+	the existing IS-IS protocol.  This document describes IS-IS protocol extensions
+	which allows generic advertisement of MPLS label switched paths in IS-IS.
+      </t>
     </section>
 
   </section>
@@ -515,6 +540,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3107.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3209.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4206.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5036.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5151.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5302.xml"?>
