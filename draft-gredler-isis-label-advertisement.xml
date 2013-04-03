@@ -106,12 +106,12 @@
     information.  While retrofitting existing protocol machinery for new
     purposes is generally a good thing, <xref
     target="I-D.previdi-filsfils-isis-segment-routing">Segment
-    Routing</xref> falls short of adressing some use-cases defined in
+    Routing</xref> falls short of addressing some use-cases defined in
     <xref target="I-D.gredler-rtgwg-igp-label-advertisement"/>.
     </t>
 
     <t>The dominant issue around re-using IS-Reach TLVs and the extended IP Prefix TLVs is that
-    both family of TLVs have exisiting protocol semantics, which might not be applicable
+    both family of TLVs have existing protocol semantics, which might not be applicable
     to advertising MPLS label switched paths in a generic fashion. These are specifically:</t>
 
     <t><list style="symbols">
@@ -331,7 +331,7 @@
 
 	<section title="Prefix ERO subTLV path semantics">
 	  <t>
-	    All 'Prefix ERO' information represents and ordered set
+	    All 'Prefix ERO' information represents an ordered set
 	    which describes the segments of a label-switched path. The last Prefix
 	    ERO subTLV describes the segment closes to the egress point of the
 	    LSP. Contrary the first Prefix ERO subTLV describes the first segment
