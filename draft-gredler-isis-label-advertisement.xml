@@ -222,13 +222,14 @@
       given label value MUST be present in a single IS-IS fragment.
       </t>
 
-      <t>The MPLS Label TLV has type 149 and contains a data structure
-      consisting of:</t>
+      <t>The MPLS Label TLV has type 149 and has the following format:</t>
 
         <figure anchor="MPLS-TLV-figure" title="MPLS TLV format">
           <artwork>
    0                   1                   2                   3
    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |      Type     |     Length    |
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
   |U|R|R|R|            MPLS Label                 |
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
