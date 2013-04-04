@@ -573,9 +573,46 @@
 
     <section anchor="IANA" title="IANA Considerations">
       <t>
-	This memo request allocation of TLV 149 for carrying the label value and
-	two subTLVs (1, 2) for describing its path using ERO style segments.
+	This documents request allocation for the following TLVs and subTLVs.
       </t>
+
+      <texttable anchor="iana_table" title="IANA allocations">
+	<ttcol align="center">PDU</ttcol>
+	<ttcol align="left">TLV</ttcol>
+	<ttcol align="left">subTLV</ttcol>
+	<ttcol align="left">Type</ttcol>
+	<ttcol align="left">subType</ttcol>
+	<ttcol align="right">#Occurence</ttcol>
+
+	<c>LSP</c>
+	<c>MPLS Label</c>
+	<c></c>
+	<c>149</c>
+	<c></c>
+	<c>&gt;=0</c>
+
+	<c></c>
+	<c></c>
+	<c>IPv4 Prefix ERO</c>
+	<c></c>
+	<c>1</c>
+	<c>&gt;=0</c>
+
+	<c></c>
+	<c></c>
+	<c>IPv6 Prefix ERO</c>
+	<c></c>
+	<c>2</c>
+	<c>&gt;=0</c>
+
+      </texttable>
+
+      <t>
+	The MPLS Label TLV requires a new sub-registry.
+	Type value 149 has been assigned, with a starting sub-TLV
+	value of 1, and managed by Expert Review.
+      </t>
+
     </section>
 
     <section anchor="Security" title="Security Considerations">
