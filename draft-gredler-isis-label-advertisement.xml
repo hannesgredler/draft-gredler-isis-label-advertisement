@@ -230,7 +230,7 @@
    0                   1                   2                   3
    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  |U|W|P|R|            MPLS Label                 |
+  |U|R|R|R|            MPLS Label                 |
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
   </artwork>
         </figure>
@@ -239,9 +239,7 @@
 	  <t>4 bits of flags, consisting of:
 	  <list style="symbols">
 	    <t>1 bit of up/down information (U bit)</t>
-	    <t>1 bit of Local/Domain wide information (W bit)</t>
-	    <t>1 bit of PHP information (P bit)</t>
-	    <t>1 bit is reserved for future use</t>
+	    <t>3 bits are reserved for future use</t>
 	  </list></t>
 	  <t>20 bits of MPLS label information</t>
 	  <t>0-252 octets of sub-TLVs, where each sub-TLV consists of a
@@ -260,18 +258,6 @@
 	    In order to prevent flooding loops, a router will Set the Up/Down (U-Bit)
 	    when propagating from Level 2 down to Level 1. This is done as per the
 	    procedures for IP Prefixes lined out <xref target="RFC5302">RFC 5302</xref>.
-	    </t>
-
-	    <t>Router Local/ Domain Wide Bit: This bit gets set if domain wide labels are used.
-	    This bit is unset if the Router is advertising from its local label space.
-	    Domain wide labels are defined <xref target="I-D.previdi-filsfils-isis-segment-routing"/>
-	    </t>
-
-	    <t>UHP / PHP Bit: This bit may only be set for Domain Wide labels.
-	    Domain wide labels are defined <xref target="I-D.previdi-filsfils-isis-segment-routing"/>
-	    If the P Bit is set then the Originator of this Domain-Wide label requires to
-	    POP of the top label by penultimate routers.
-	    <!-- FIXME add link to PHP behaviour -->
 	    </t>
 	  </list></t>
 	</section>
@@ -449,24 +435,6 @@
 	  <t>TLV 149: MPLS label &lt;N&gt;, Flags {}:
 	  <list style="hangout">
 	    <t>IPv4 Prefix ERO subTLV: 10.0.0.6/32, Strict</t>
-	  </list></t>
-	</list></t>	
-      </section>
-
-      <section title="Advertising a domain-wide Label">
-	<t>If R1 would advertise a domain-wide label &lt;N&gt; pointing to self, PHP</t>
-	<t><list style="hangout">
-	  <t>TLV 149: MPLS label &lt;N&gt;, Flags {W, P}:
-	  <list style="hangout">
-	    <t>IPv4 Prefix ERO subTLV: 192.168.1.1/32, Strict</t>
-	  </list></t>
-	</list></t>	
-
-	<t>If R2 would advertise a domain-wide label &lt;N&gt; for itself, UHP</t>
-	<t><list style="hangout">
-	  <t>TLV 149: MPLS label &lt;N&gt;, Flags {W}:
-	  <list style="hangout">
-	    <t>IPv4 Prefix ERO subTLV: 192.168.1.2/32, Strict</t>
 	  </list></t>
 	</list></t>	
       </section>
