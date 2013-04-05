@@ -570,7 +570,7 @@
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
-      <t>Many thanks to Yakov Rehkter for his useful comments.</t>
+      <t>Many thanks to Yakov Rekhter for his useful comments.</t>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -642,7 +642,7 @@
     </references>
 
     <references title="Informative References">
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-gredler-rtgwg-igp-label-advertisement-02.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-gredler-rtgwg-igp-label-advertisement-03.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-previdi-filsfils-isis-segment-routing-02.xml"?>
     </references>
 
