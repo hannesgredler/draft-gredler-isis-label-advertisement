@@ -88,7 +88,7 @@
 
     <abstract>
       <t>Historically MPLS label distribution was driven by
-      protocols like LDP, RSVP and LBGP. Both of those protocols are session
+      protocols like LDP, RSVP and LBGP. All of those protocols are session
       oriented. In order to obtain label binding for a given destination FEC from
       a given router one needs first to establish an LDP/RSVP/LBGP session
       with that router.
@@ -287,7 +287,7 @@
 	    <t>Up/Down Bit: A router may flood MPLS label information across level boundaries.
 	    In order to prevent flooding loops, a router will Set the Up/Down (U-Bit)
 	    when propagating from Level 2 down to Level 1. This is done as per the
-	    procedures for IP Prefixes lined out <xref target="RFC5302">RFC 5302</xref>.
+	    procedures for IP Prefixes lined out in <xref target="RFC5302"/>.
 	    </t>
 	  </list></t>
 	</section>
@@ -485,7 +485,7 @@
 	</list></t>	
       </section>
 
-      <section title="Advertisment of an LDP LSP">
+      <section title="Advertisement of an LDP LSP">
 	<t>Consider R2 that creates a LDP label binding for FEC 172.16.0.0./12
 	using label &lt;N&gt;.</t>
 	<t>If R2 would re-advertise this binding in IS-IS it would encode as follows</t>
