@@ -50,7 +50,28 @@
     <author fullname="Tom Scholl" initials="T." surname="Scholl">
       <organization>Amazon</organization>
       <address>
+	<postal>
+	  <street></street>
+	  <city>Seattle</city>
+	  <region>WN</region>
+	  <code></code>
+	  <country>US</country>
+	</postal>
 	<email>tscholl@amazon.com</email>
+      </address>
+    </author>
+
+    <author fullname="Luay Jalil" initials="L." surname="Jalil">
+      <organization>Verizon</organization>
+      <address>
+	<postal>
+	  <street></street>
+	  <city>Dallas</city>
+	  <region>TX</region>
+	  <code></code>
+	  <country>US</country>
+	</postal>
+	<email>luay.jalil@verizon.com</email>
       </address>
     </author>
 
@@ -292,7 +313,7 @@
 	  length 25 up to 32, etc.</t>
 
 	  <t>
-	    The L bit in the subobject is a one-bit attribute.  If the L bit is
+	    The 'L' bit in the subTLV is a one-bit attribute.  If the L bit is
 	    set, then the value of the attribute is 'loose.'  Otherwise, the
 	    value of the attribute is 'strict.'
 	  </t>
@@ -325,7 +346,7 @@
 	  </t>
 
 	  <t>
-	    The L bit in the subobject is a one-bit attribute.  If the L bit is
+	    The 'L' bit in the subTLV is a one-bit attribute.  If the L bit is
 	    set, then the value of the attribute is 'loose.'  Otherwise, the
 	    value of the attribute is 'strict.'
 	  </t>
@@ -586,7 +607,7 @@
       <t>
 	The MPLS Label TLV requires a new sub-registry.
 	Type value 149 has been assigned, with a starting sub-TLV
-	value of 1, and managed by Expert Review.
+	value of 1, range from 1-127, and managed by Expert Review.
       </t>
 
     </section>
