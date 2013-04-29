@@ -172,7 +172,7 @@
       is done using IS-reach TLVs. Usually implementations need to have
       an adjacency in 'Up' state prior to advertising this adjacency
       as IS-reach TLV in its Link State PDUs (LSPs).
-      In order to advertise a per-link LSP an implementation first needs to have
+      In order to advertise e.g. one-hop MPLS LSP in a given link an implementation first needs to have
       an adjacency, which only transitions to 'Up' state after passing the 3-way
       check. This implies bi-directionality. If an implementation wants to advertise
       per-link LSPs to e.g. outside the IGP domain then it would need
@@ -187,12 +187,12 @@
 	LSPs pointing to a Node are advertised as <xref
 	target="I-D.previdi-filsfils-isis-segment-routing">'Node-SIDs'</xref>
 	using the family of extended IP Reach TLVs. That means that in order
-	to advertise a LSP, one is inheriting the semantics of advertising an
-	IP path. Consider router A has got existing LSPs to its entire one-hop
-	neighborhood and is re-advertising those LSPs using IP reachability semantics.
+	to advertise a MPLS LSP, one is inheriting the semantics of advertising an
+	IP path. Consider router A has got existing MPLS LSPs to its entire one-hop
+	neighborhood and is re-advertising those MPLS LSPs using IP reachability semantics.
 	Now we have two exact matching IP advertisements. One from the owning router
 	(router B) which advertises its stable transport loopback address and another one
-	from router A re-advertising a LSP path to router B. Existing routing software
+	from router A re-advertising a MPLS LSP path to router B. Existing routing software
 	may get confused now as the 'stable transport' address shows up from multiple places
 	in the network and more worse the IP forwarding path for control-plane protocols may get
 	mingled with the MPLS data plane. 
@@ -237,7 +237,7 @@
       <t>The MPLS Label TLV may be originated by any <xref target="RFC5305">Traffic Engineering</xref>
       capable router in an IS-IS domain. A router may advertise MPLS labels along with so called 'ERO'
       path segments describing the label switched path. Since ERO style path notation allows to
-      express pointers to link and node IP addresses any label switched path, sourced by any protocol
+      express pointers to link and node IP addresses any label switched path, sourced by any protocol,
       can be described.
       </t>
 
@@ -452,7 +452,7 @@
 	<t>If R1 would advertise a label &lt;N&gt; bound to a one-hop LSP
 	from R1 to R2 it would encode as follows:</t>
 		<t><list style="hangout">
-	  <t>TLV 149: MPLS label N, Flags {}:
+	  <t>TLV 149: MPLS label &lt;N&gt;, Flags {}:
 	  <list style="hangout">
 	    <t>IPv4 Prefix ERO subTLV: 192.168.1.2/32, Strict</t>
 	  </list></t>
