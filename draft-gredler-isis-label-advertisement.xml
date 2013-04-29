@@ -372,6 +372,77 @@
         </figure>
 	</section> <!-- end IPv6 Prefix ERO subtLV -->
 
+	<section title="IPv4 Prefix Bypass ERO subTLV">
+	  <t>The IPv4 Bypass ERO subTLV (Type 3) describes a Bypass LSP path segment using IPv4 Prefix style of encoding.
+	  Its appearance and semantics have been borrowed from <xref target="RFC3209">
+	  Section 4.3.3.2</xref>.
+	  </t>
+
+	  <t>The 'Prefix Length' field contains the length of the prefix in bits.
+	  Only the most significant octets of the prefix are encoded, i.e. 1
+	  octet for prefix length 1 up to 8, 2 octets for prefix length 9 to
+	  16, 3 octets for prefix length 17 up to 24 and 4 octets for prefix
+	  length 25 up to 32, etc.</t>
+
+	  <t>
+	    The 'L' bit in the subTLV is a one-bit attribute.  If the L bit is
+	    set, then the value of the attribute is 'loose.'  Otherwise, the
+	    value of the attribute is 'strict.'
+	  </t>
+
+        <figure anchor="IPv4-Prefix-Bypass-ERO-subTLV-figure" title="IPv4 Prefix Bypass ERO subTLV format">
+          <artwork>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |L|    Type     |     Length    | Prefix Length |  IPv4 Prefix  |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   | IPv4 Prefix  (continued, variable-length)     |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+  </artwork> 
+        </figure>
+	</section> <!-- end IPv4 Prefix Bypass ERO subtLV -->
+
+	<section title="IPv6 Prefix Bypass ERO subTLV">
+	  <t>The IPv6 ERO subTLV (Type 4) describes a Bypass LSP path segment using IPv6 Prefix style of encoding.
+	  Its appearance and semantics have been borrowed from <xref target="RFC3209">
+	  Section 4.3.3.3</xref>.
+	  </t>
+
+	  <t>The 'Prefix Length' field contains the length of the prefix in bits.
+	  Only the most significant octets of the prefix are encoded, i.e. 1
+	  octet for prefix length 1 up to 8, 2 octets for prefix length 9 to
+	  16, 3 octets for prefix length 17 up to 24 and 4 octets for prefix
+	  length 25 up to 32, ...., 16 octets for prefix length 113 up to 128.
+	  </t>
+
+	  <t>
+	    The 'L' bit in the subTLV is a one-bit attribute.  If the L bit is
+	    set, then the value of the attribute is 'loose.'  Otherwise, the
+	    value of the attribute is 'strict.'
+	  </t>
+
+        <figure anchor="IPv6-Prefix-Bypass-ERO-subTLV-figure" title="IPv6 Prefix Bypass ERO subTLV format">
+          <artwork>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |L|    Type     |     Length    | Prefix Length | IPv6 Prefix   |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   | IPv6 Prefix (continued)                                       |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   | IPv6 Prefix (continued)                                       |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   | IPv6 Prefix (continued)                                       |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   | IPv6 Prefix (continued, variable length)      |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+  </artwork>
+        </figure>
+	</section> <!-- end IPv6 Prefix Bypass ERO subtLV -->
+
 	<section title="Prefix ERO subTLV path semantics">
 	  <t>
 	    All 'Prefix ERO' information represents an ordered set
@@ -394,6 +465,7 @@
 	  the Label advertisement examples.
 	</t>
 
+    <?rfc needLines="20" ?>
         <figure anchor="sample-topology" title="Sample Topology">
           <artwork>
 
@@ -471,6 +543,25 @@
 	</list></t>	
       </section>
 
+      <section title="Advertisement of Fast Re-Route LSP for One-Hop LSP">
+          <t>R2 may advertise a one-hop LSP from R2 to R3, along with a Link
+             Protection Bypass for the directly adjacent links between those
+             two nodes.  The Link Protection Bypass would use the path: {R2,
+             R5, R6, R3}.  R2 would encode both the primary LSP and Link
+             Protection Bypass LSP as follows:</t>
+
+        <t><list style="hangout">
+          <t>TLV 149: MPLS label &lt;N&gt;, Flags {}:
+          <list style="hangout">
+            <t>IPv4 Prefix ERO subTLV: 192.168.1.3/32, Strict</t>
+            <t>IPv4 Prefix Bypass ERO subTLV: 192.168.1.5/32, Strict</t>
+            <t>IPv4 Prefix Bypass ERO subTLV: 192.168.1.6/32, Strict</t>
+            <t>IPv4 Prefix Bypass ERO subTLV: 192.168.1.3/32, Strict</t>
+          </list></t>
+        </list></t>	
+      </section> <!-- end 'Advertisement of Fast Re-Route LSP' -->
+       
+
       <section title="Advertisement of an RSVP LSP">
 	<t>Consider a RSVP LSP name "R2-to-R6" traversing (R2 to R3 using link #1, R6):</t>
 	<t>If R2 would advertise a label &lt;N&gt; bound to the RSVP LSP named 'R2-to-R6',
@@ -484,7 +575,7 @@
 	  </list></t>
 	</list></t>	
       </section>
-
+       
       <section title="Advertisement of an LDP LSP">
 	<t>Consider R2 that creates a LDP label binding for FEC 172.16.0.0./12
 	using label &lt;N&gt;.</t>
@@ -578,6 +669,8 @@
 	This documents request allocation for the following TLVs and subTLVs.
       </t>
 
+      <?rfc needLines="18" ?>
+
       <texttable anchor="iana_table" title="IANA allocations">
 	<ttcol align="center">PDU</ttcol>
 	<ttcol align="left">TLV</ttcol>
@@ -605,6 +698,20 @@
 	<c>IPv6 Prefix ERO</c>
 	<c></c>
 	<c>2</c>
+	<c>&gt;=0</c>
+
+	<c></c>
+	<c></c>
+	<c>IPv4 Prefix Bypass ERO</c>
+	<c></c>
+	<c>3</c>
+	<c>&gt;=0</c>
+
+	<c></c>
+	<c></c>
+	<c>IPv6 Prefix Bypass ERO</c>
+	<c></c>
+	<c>4</c>
 	<c>&gt;=0</c>
 
       </texttable>
