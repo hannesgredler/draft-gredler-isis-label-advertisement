@@ -435,14 +435,14 @@
 	  <t><list style="symbols">
 	    <t>R1 to R2 link: 10.0.0.1, 10.0.0.2</t>
 	    <t>R1 to R4 link: 10.0.0.3, 10.0.0.4</t>
-	    <t>R2 to R3 link #1: 10.0.0.3, 10.0.0.4</t>
-	    <t>R2 to R3 link #2: 10.0.0.5, 10.0.0.6</t>
-	    <t>R2 to R5 link: 10.0.0.7, 10.0.0.8</t>
+	    <t>R2 to R3 link #1: 10.0.0.5, 10.0.0.6</t>
+	    <t>R2 to R3 link #2: 10.0.0.7, 10.0.0.8</t>
+	    <t>R2 to R5 link: 10.0.0.9, 10.0.0.10</t>
 	    <t>R3 to R6 link: 10.0.0.13, 10.0.0.14</t>
 	    <t>R3 to R7 link: 10.0.0.15, 10.0.0.16</t>
-	    <t>R4 to R5 link: 10.0.0.19, 10.0.0.20</t>
+	    <t>R4 to R5 link: 10.0.0.17, 10.0.0.18</t>
 	    <t>R5 to R6 link: 10.0.0.11, 10.0.0.12</t>
-	    <t>R6 to R7 link: 10.0.0.17, 10.0.0.18</t>
+	    <t>R6 to R7 link: 10.0.0.19, 10.0.0.20</t>
 	  </list></t>	
 	</section>
 
@@ -460,13 +460,13 @@
       </section>
 
       <section title="One-hop LSP to an adjacent Router using a specific link">
-	<t>If R2 would advertise a label &lt;N&gt;bound to a one-hop LSP
+	<t>If R2 would advertise a label &lt;N&gt; bound to a one-hop LSP
 	from R2 to R3, using the link #2 it would encode as follows</t>
 	
 	<t><list style="hangout">
 	  <t>TLV 149: MPLS label &lt;N&gt;, Flags {}:
 	  <list style="hangout">
-	    <t>IPv4 Prefix ERO subTLV: 10.0.0.6/32, Strict</t>
+	    <t>IPv4 Prefix ERO subTLV: 10.0.0.8/32, Strict</t>
 	  </list></t>
 	</list></t>	
       </section>
@@ -479,14 +479,14 @@
 	<t><list style="hangout">
 	  <t>TLV 149: MPLS label &lt;N&gt;, Flags {}:
 	  <list style="hangout">
-	    <t>IPv4 Prefix ERO subTLV: 10.0.0.4/32, Strict</t>
+	    <t>IPv4 Prefix ERO subTLV: 10.0.0.6/32, Strict</t>
 	    <t>IPv4 Prefix ERO subTLV: 192.168.1.6/32, Strict</t>
 	  </list></t>
 	</list></t>	
       </section>
 
       <section title="Advertisement of an LDP LSP">
-	<t>Consider R2 that creates a LDP label binding for FEC 172.16.0.0./12
+	<t>Consider R2 that creates a LDP label binding for FEC 172.16.0.0/12
 	using label &lt;N&gt;.</t>
 	<t>If R2 would re-advertise this binding in IS-IS it would encode as follows</t>
 	
