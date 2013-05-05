@@ -229,6 +229,12 @@
 	the existing IS-IS protocol.  This document describes IS-IS protocol extensions
 	which allows generic advertisement of MPLS label switched paths in IS-IS.
       </t>
+
+      <t>The Protocol extensions described in this document are equally applicable to
+      IPv4 and IPv6 carried over MPLS. Furthermore the proposed use of distributing
+      MPLS Labels using IGP prototocols adheres to the architectural principles laid
+      out in <xref target="RFC3031"/>.
+      </t>
     </section>
 
   </section>
