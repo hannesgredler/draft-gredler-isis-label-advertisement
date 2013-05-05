@@ -464,18 +464,19 @@
     <section title="All Router Block subTLV"
 	     anchor="all-rtr-block-subtlv">
       <t>
-	The 'All Router Block' TLV (Type 6) denominates the label block size of
+	The 'All Router Block' subTLV (Type 6) denominates the label block size of
 	an MPLS Label advertisement and its semantics to connect to all routers in
 	a given IS-IS domain using a local assigned  <xref target="RFC3031"/>
 	label range. Note that the actual mapping of a router within the label range
-	is done using the TLVs described in <xref target="all-rtr-id-ipv4-map-subtlv"/>
+	is done using the subTLVs described in <xref target="all-rtr-id-ipv4-map-subtlv"/>
 	and <xref target="all-rtr-id-ipv6-map-subtlv"/>. Since generation of
-	an IPv4 or IPv6 Map TLV is a local policy decision, it might be the case
+	an 'All Router ID IPv4 Map' or 'All Router ID IPv6 Map' subTLV
+	is a local policy decision, it might be the case
 	that connectivity is provided not to 'All' but rather a subset of 'All'
 	routers. Keeping policy decisions aside, for simplicity reasons,
 	assume that All Routers in a domain do generate either the
 	'All Router ID IPv4 Map' or
-	'All Router ID IPv6 Map' TLVs and therefore all routers
+	'All Router ID IPv6 Map' subTLVs and therefore all routers
 	desire construction of a Label switched path from every source router
 	in the network.
 
@@ -496,7 +497,7 @@
 	in order to construct forwarding state to
 	a particular destination router.
 
-	The 'ID' is separately advertised using the TLVs described in 
+	The 'ID' is separately advertised using the subTLVs described in 
 	<xref target="all-rtr-id-ipv4-map-subtlv"/> and
 	<xref target="all-rtr-id-ipv6-map-subtlv"/>.
       </t>
@@ -848,10 +849,10 @@
 	declaring SPT label forwarding support to all routers within a given domain,
 	it would encode as follows:</t>
 	<t><list>
-	  <t>LSA 149, LSA-ID &lt;N1&gt;:
+	  <t>TLV 149: MPLS Label &lt;N1&gt;, Flags {}:
 	  <list>
-	    <t>All Router Block TLV: Block Size 10 </t>
-	    <t>All Router ID IPv4 Map TLV: ID 2, 192.168.1.2</t>
+	    <t>All Router Block subTLV: Block Size 10 </t>
+	    <t>All Router ID IPv4 Map subTLV: ID 2, 192.168.1.2</t>
 	  </list></t>
 	</list></t>	
 
@@ -859,10 +860,10 @@
 	declaring SPT label forwarding support to all routers within a given domain,
 	it would encode as follows:</t>
 	<t><list>
-	  <t>LSA 149, LSA-ID &lt;N2&gt;:
+	  <t>TLV 149, MPLS Label &lt;N2&gt;, Flags {}:
 	  <list>
-	    <t>All Router Block TLV: Block Size 10 </t>
-	    <t>All Router ID IPv4 Map TLV: ID 3, 192.168.1.3</t>
+	    <t>All Router Block subTLV: Block Size 10 </t>
+	    <t>All Router ID IPv4 Map subTLV: ID 3, 192.168.1.3</t>
 	  </list></t>
 	</list></t>	
 
@@ -870,10 +871,10 @@
 	declaring SPT label forwarding support to all routers within a given domain,
 	it would encode as follows:</t>
 	<t><list>
-	  <t>LSA 149, LSA-ID &lt;N3&gt;:
+	  <t>TLV 149, MPLS Label &lt;N3&gt;, Flags {}:
 	  <list>
-	    <t>All Router Block TLV: Block Size 10 </t>
-	    <t>All Router ID IPv4 Map TLV: ID 5, 192.168.1.5</t>
+	    <t>All Router Block subTLV: Block Size 10 </t>
+	    <t>All Router ID IPv4 Map subTLV: ID 5, 192.168.1.5</t>
 	  </list></t>
 	</list></t>	
 
@@ -881,10 +882,10 @@
 	declaring SPT label forwarding support to all routers within a given domain,
 	it would encode as follows:</t>
 	<t><list>
-	  <t>LSA 149, LSA-ID &lt;N4&gt;:
+	  <t>TLV 149, MPLS Label &lt;N4&gt;, Flags {}:
 	  <list>
-	    <t>All Router Block TLV: Block Size 10 </t>
-	    <t>All Router ID IPv4 Map TLV: ID 6, 192.168.1.6</t>
+	    <t>All Router Block subTLV: Block Size 10 </t>
+	    <t>All Router ID IPv4 Map subTLV: ID 6, 192.168.1.6</t>
 	  </list></t>
 	</list></t>	
 
