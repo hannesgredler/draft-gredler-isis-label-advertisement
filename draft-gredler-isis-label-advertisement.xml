@@ -936,14 +936,28 @@
       </section>
 
       <section title="Control plane operations">
-	<t>
-	If local policy dictates that a given L1L2 router needs to
-	re-advertise a MPLS LSPs from one Level to another then it
-	must prepend its "Traffic-Engineering-ID" as a loose hop in the
-	Prefix ERO subTLV list.  
-	</t>
-      </section>
+	<section title="MPLS Label operations">
+	  <t>
+	    If local policy dictates that a given L1L2 router
+	    re-advertises a MPLS LSPs into another Level then it
+	    MUST prepend its "Traffic-Engineering-ID" as a loose hop in the
+	    Prefix ERO subTLV list. If the LSP is propagated from a higher Level
+	    to a lower Level then the 'Down' bit MUST be set.
+	  </t>
+	</section>
 
+	<section title="MPLS Label Block operations">
+	  <t>
+	    If local policy dictates that a given L1L2 router advertises
+	    its 'All Router Block' into another Level, then it also
+	    MUST re-advertise all known 'ID' ordinals (again gated by policy)
+	    to the respective other Level. Without knowledge of all 'ID's
+	    in the network no router is able to construct SPT label switched paths.
+	    If a Label Block and its ID mappings are propagated from a
+	    higher Level to a lower Level then the 'Down' bit MUST be set.
+	  </t>
+	</section>
+      </section>
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
