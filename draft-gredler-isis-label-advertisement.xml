@@ -677,25 +677,28 @@
         <figure anchor="sample-topology" title="Sample Topology">
           <artwork>
 
-                    AS1                         :    AS 2
-                                                :
-                     :                          :
-         Level 1     :     Level 2              :
-                     :                          :
-+-----+           +-----+-IP3--IP4--+-----+     :
-| R1  +-IP1--IP2--+ R2  |           | R3  |     :
-+--+--+           +--+--+-IP5--IP6--+--+--+-IP15-IP16-
-   |                 |                 |        :     \
-  IP3               IP7               IP13      :   +--+--+
-   |                 |                 |        :   |  R7 |
-  IP4               IP8               IP14      :   +--+--+
-   |                 |                 |        :     /
-+--+--+           +--+--+           +--+--+-IP17-IP18-
-|  R4 +-IP19-IP20-+ R5  |-IP11-IP12-| R6  |     :
-+-----+           +-----+           +-----+     :
-                     :                          :
-                     :                          :
-                     :                          :
+                      AS1                           :    AS 2
+                                                    :
+                       :                            :
+           Level 1     :     Level 2                :
+                       :                            :
+                       :                            :
++-----+             +-----+-IP3--1-IP4--+-----+     :
+| R1  +-IP1--1-IP2--+ R2  |             | R3  |     :
++--+--+             +--+--+-IP5--3-IP6--+--+--+-IP15-IP16- 
+   |                   |                   |        :     \
+  IP3                 IP7                IP13       :      \
+   |                   |                   |        :    +--+--+
+   1                   1                   1        :    |  R7 |
+   |                   |                   |        :    +--+--+
+  IP4                 IP8                IP14       :      /
+   |                   |                   |        :     /
++--+--+             +--+--+             +--+--+-IP17-IP18- 
+|  R4 +-IP19-2-IP20-+ R5  |-IP11-2-IP12-| R6  |     :
++-----+             +-----+             +-----+     :
+                       :                            :
+                       :                            :
+                       :                            :
 	  </artwork>
 	</figure>
 
@@ -724,6 +727,11 @@
 	    <t>R5 to R6 link: 10.0.0.11, 10.0.0.12</t>
 	    <t>R6 to R7 link: 10.0.0.19, 10.0.0.20</t>
 	  </list></t>	
+
+	  <t>
+	    The IGP link metrics are displayed in the middle of the link.
+	    All of them are assumed to be bi-directional.
+	  </t>
 	</section>
 
       </section>
