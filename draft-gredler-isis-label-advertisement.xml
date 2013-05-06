@@ -10,7 +10,7 @@
 <?rfc inline="yes"?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-gredler-isis-label-advertisement-01" ipr="trust200902">
+<rfc category="std" docName="draft-gredler-isis-label-advertisement-02" ipr="trust200902">
 
   <!-- ***** FRONT MATTER ***** -->
 
@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="5" month="May" year="2013"/>
+    <date day="6" month="May" year="2013"/>
 
     <area>Routing</area>
 
@@ -103,7 +103,7 @@
       </t>
 
 	<t>This document describes the protocol extension to distribute
-	MPLS labels by the IS-IS protocol.</t>
+	MPLS label bindings using the IS-IS protocol.</t>
     </abstract>
 
     <note title="Requirements Language">
@@ -125,7 +125,7 @@
       control plane (LDP/RSVP/LBGP) session with that router.
       </t>
 
-      <t>There are a couple of
+      <t>There are a couple of practical
       <xref target="I-D.gredler-rtgwg-igp-label-advertisement">use cases</xref>
       where the consumer of a MPLS label binding may not
       be adjacent to the router that performs the binding. Bringing up an
@@ -134,7 +134,7 @@
       acts as a consumer of this binding is the existing remedy for 
       this dilemma. </t>
 
-      <t>This document describes a single IS-IS protocol extension which allows
+      <t>This document describes an IS-IS protocol extension which allows
       routers to advertise MPLS label bindings within and beyond an IGP domain, and
       controlling inter-area distribution.
       </t> 
@@ -227,7 +227,7 @@
 	IGP advertisement of MPLS label switched paths requires a new set of
 	protocol semantics (path paradigm), which hardly can be expressed using
 	the existing IS-IS protocol.  This document describes IS-IS protocol extensions
-	which allows generic advertisement of MPLS label switched paths in IS-IS.
+	which allows generic advertisement of MPLS label bindings in IS-IS.
       </t>
 
       <t>The Protocol extensions described in this document are equally applicable to
@@ -240,11 +240,20 @@
   </section>
 
     <section title="MPLS label TLV">
-      <t>The MPLS Label TLV may be originated by any <xref target="RFC5305">Traffic Engineering</xref>
-      capable router in an IS-IS domain. A router may advertise MPLS labels along with so called 'ERO'
-      path segments describing the label switched path. Since ERO style path notation allows to
-      express pointers to link and node IP addresses any label switched path, sourced by any protocol,
-      can be described.
+      <t>The MPLS Label TLV may be originated by any
+      <xref target="RFC5305">Traffic Engineering</xref>
+      capable router in an IS-IS domain. The router may advertise a single label
+      binding or a block of label bindings. For single label binding advertisement
+      a router needs to provide at least a single 'nexthop style' anchor.
+      The protocol supports more than one 'nexthop style' anchor
+      to be attached to a Label binding, which results into a simple path
+      description language. In analogy to RSVP the terminology for this is
+      called an 'Explicit Route Object' (ERO).
+
+      Since ERO style path notation allows to anchor label bindings to
+      to both link and node IP addresses any label switched path,
+      can be described. Furthermore also Label Bindings from other protocols
+      can get easily re-advertised.
       </t>
 
       <t>Due to the limited size of subTLV space (See <xref
@@ -254,7 +263,7 @@
       subTLVs of the second, third, etc. TLV are accumulated. Since some
       subTLVs represent an ordered set (e.g. ERO subTLVs) allocation and
       ordering of TLV space inside particular IS-IS LSP fragment is
-      significant.
+      significant and needs to be tracked.
       </t>
 
       <t>The MPLS Label TLV has type 149 and has the following format:</t>
@@ -451,13 +460,16 @@
 
 	<section title="Prefix ERO and Prefix Bypass ERO subTLV path semantics">
 	  <t>
-	    All 'Prefix ERO' and 'Prefix Bypass ERO' information represents an ordered set
+	    All 'Prefix ERO' and 'Prefix Bypass ERO' information represents
+	    an ordered set
 	    which describes the segments of a label-switched path. The last Prefix
 	    ERO subTLV describes the segment closest to the egress point of the
 	    LSP. Contrary the first Prefix ERO subTLV describes the first segment
 	    of a label switched path. If a router extends or stitches a label
 	    switched path it MUST prepend the new segments path information to the
-	    Prefix ERO list.
+	    Prefix ERO list. The same ordering applies for the Bypass ERO
+	    labels. An implementation SHOULD first encode all primary path
+	    EROs followed by the bypass EROs.
 	  </t>
 	</section>
 
@@ -468,8 +480,9 @@
 	an MPLS Label advertisement and its semantics to connect to all routers in
 	a given IS-IS domain using a local assigned  <xref target="RFC3031"/>
 	label range. Note that the actual mapping of a router within the label range
-	is done using the subTLVs described in <xref target="all-rtr-id-ipv4-map-subtlv"/>
-	and <xref target="all-rtr-id-ipv6-map-subtlv"/>. Since generation of
+	is done using the subTLVs described in
+	<xref target="all-rtr-id-ipv4-map-subtlv"/> and
+	<xref target="all-rtr-id-ipv6-map-subtlv"/>. Since generation of
 	an 'All Router ID IPv4 Map' or 'All Router ID IPv6 Map' subTLV
 	is a local policy decision, it might be the case
 	that connectivity is provided not to 'All' but rather a subset of 'All'
@@ -509,8 +522,8 @@
 	out of ID space. It simply advertises one more label block to cover additional
 	ordinals outside the range of the first label block.
 
-	An example of this is described in more detail in
-	<xref target="all-rtr-block-example"/>
+	An example of label-block expansion is described in more detail in
+	<xref target="all-rtr-block-resize-example"/>
       </t>
 
       <figure anchor="All-Router-Block-sub-TLV-figure"
@@ -859,7 +872,7 @@
 	<t><list>
 	  <t>TLV 149: MPLS Label &lt;N1&gt;, Flags {}:
 	  <list>
-	    <t>All Router Block subTLV: Block Size 10 </t>
+	    <t>All Router Block subTLV: Block Size 10, Algo 0, Topology 0</t>
 	    <t>All Router ID IPv4 Map subTLV: ID 2, 192.168.1.2</t>
 	  </list></t>
 	</list></t>	
@@ -870,7 +883,7 @@
 	<t><list>
 	  <t>TLV 149, MPLS Label &lt;N2&gt;, Flags {}:
 	  <list>
-	    <t>All Router Block subTLV: Block Size 10 </t>
+	    <t>All Router Block subTLV: Block Size 10, Algo 0, Topology 0</t>
 	    <t>All Router ID IPv4 Map subTLV: ID 3, 192.168.1.3</t>
 	  </list></t>
 	</list></t>	
@@ -881,7 +894,7 @@
 	<t><list>
 	  <t>TLV 149, MPLS Label &lt;N3&gt;, Flags {}:
 	  <list>
-	    <t>All Router Block subTLV: Block Size 10 </t>
+	    <t>All Router Block subTLV: Block Size 10, Algo 0, Topology 0</t>
 	    <t>All Router ID IPv4 Map subTLV: ID 5, 192.168.1.5</t>
 	  </list></t>
 	</list></t>	
@@ -892,7 +905,7 @@
 	<t><list>
 	  <t>TLV 149, MPLS Label &lt;N4&gt;, Flags {}:
 	  <list>
-	    <t>All Router Block subTLV: Block Size 10 </t>
+	    <t>All Router Block subTLV: Block Size 10, Algo 0, Topology 0</t>
 	    <t>All Router ID IPv4 Map subTLV: ID 6, 192.168.1.6</t>
 	  </list></t>
 	</list></t>	
@@ -929,6 +942,52 @@
 
       </section>
 
+      <section title="Expansion of an 'All Router Block' TLV"
+	       anchor="all-rtr-block-resize-example">
+
+	<t>
+	  All routers within a given area MUST advertise their Label Blocks
+	  along with an 'ID'. Now assume that the initial label block
+	  size assignment is too small to support all routers which
+	  generate an ordinal within an IGP domain.
+	  Consider the seven routers in <xref target="sample-topology"/>,
+	  and assume that R7 advertises a new ID '15' using an
+	  'All Router ID Map' subTLV. ID '15' is outside of the range
+	  of '10' as per the previous example in 
+	  <xref target="all-rtr-block-resize-example"/>.
+
+	  Now all the routers in an IGP domain need to advertise one
+	  more label block in order to map the ID '15' to an actual
+	  label value.
+	</t>
+
+	<t>All routers would advertise in addition to their
+	label block &lt;N&gt; with a size of 10, a second label block &lt;N2&gt;
+	with a size sufficient enough that the new ordinal can get covered.
+	In this example the same block size 10 is used also for the
+	second label block. For example router R2 would advertise the
+	following label bindings.
+	</t>
+
+	<t><list>
+	  <t>TLV 149: MPLS Label &lt;N1&gt;, Flags {}:
+	  <list>
+	    <t>All Router Block subTLV: Block Size 10, Algo 0, Topology 0</t>
+	    <t>All Router ID IPv4 Map subTLV: ID 2, 192.168.1.2</t>
+	  </list></t>
+	  <t>TLV 149: MPLS Label &lt;N2&gt;, Flags {}:
+	  <list>
+	    <t>All Router Block subTLV: Block Size 10, Algo 0, Topology 0</t>
+	  </list></t>
+	</list></t>	
+
+	<t>
+	  Now the upstream router can map the new ID of R7 to an
+	  actual label value, as ID '15' corresponds to the 5th label
+	  inside the second Label block.
+	</t>
+
+      </section>
 
     </section> <!-- end 'Advertising Label Examples' -->
 
