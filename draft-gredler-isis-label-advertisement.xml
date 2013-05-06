@@ -907,7 +907,7 @@
 	  MPLS SWAP for its own label range Label(N1+6) to Label(N2+6),
 	  NH 10.0.0.4 into its MPLS transit RIB.
 	  Furthermore R2 MAY program a MPLS PUSH operation for IP 192.168.1.6 to
-	  Label (N2+6), NH 10.0.0.04 into its IPv4 tunnel RIB.
+	  Label (N2+6), NH 10.0.0.4 into its IPv4 tunnel RIB.
 	</t>
 
 	<t>
