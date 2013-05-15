@@ -10,7 +10,8 @@
 <?rfc inline="yes"?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-gredler-isis-label-advertisement-02" ipr="trust200902">
+<rfc category="std" docName="draft-gredler-isis-label-advertisement-03"
+     ipr="trust200902">
 
   <!-- ***** FRONT MATTER ***** -->
 
@@ -75,7 +76,7 @@
       </address>
     </author>
 
-    <date day="6" month="May" year="2013"/>
+    <date day="15" month="May" year="2013"/>
 
     <area>Routing</area>
 
@@ -386,6 +387,66 @@
   </artwork>
         </figure>
 	</section> <!-- end IPv6 Prefix ERO subtLV -->
+
+	<section title="Unnumbered Interface ID ERO subTLV">
+
+	  <t>The appearance and semantics of the 'Unnumbered Interface ID'
+	  have been borrowed from <xref target="RFC3477"> Section 4</xref>.
+	  </t>
+
+	  <t>The Unnumbered Interface-ID subTLV (Type 9)
+	  describes a path segment that spans over an unnumbered
+	  interface. Unnumbered interfaces are referenced using the
+	  interface index. Interface indices are assigned local to
+	  the router and therefore not globally unique. All elements
+	  in an ERO path need to be globally unique and hence need
+	  to be disambiguated using a globally unique Router-ID.
+	  </t>
+
+	  <t>The 'Router-ID' field contains the router ID of the router
+	  which has assigned the 'Interface ID' field. Its purpose is to
+	  disambiguate the 'Interface ID' field from other routers
+	  in the domain.</t>
+
+	  <t>IS-IS supports two Router-ID formats:</t>
+
+	  <t><list style="symbols">
+	    <t><xref target="RFC5305">(TLV 134, 32-Bit format)</xref></t>
+	    <t><xref target="RFC6119">(TLV 140, 128-Bit format)</xref></t>
+	  </list></t>
+
+	  <t>The actual Router-ID format gets derived from the 'Length' field.</t>
+	  <t><list style="symbols">
+	    <t>For 32-Bit Router-ID width the subTLV length is set to 8 octets.</t>
+	    <t>For 128-Bit Router-ID width the subTLV length is set to 20 octets.</t>
+	  </list></t>
+
+	  <t>The 'Interface ID' is the identifier assigned to the link
+	  by the router specified by the router ID.
+	  </t>
+
+	  <t>
+	    The 'L' bit in the subTLV is a one-bit attribute.  If the L bit is
+	    set, then the value of the attribute is 'loose.'  Otherwise, the
+	    value of the attribute is 'strict.'
+	  </t>
+
+        <figure anchor="Unnumbered-Interface-ID-ERO-subTLV-figure"
+		title="Unnumbered Interface ID ERO subTLV format">
+          <artwork>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |L|    Type     |     Length    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   //                   Router ID (32 or 128 bits)                //
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                     Interface ID (32 bits)                    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  </artwork> 
+        </figure>
+	</section> <!-- end Unnumbered Interface ID ERO subtLV -->
+
 
 	<section title="IPv4 Prefix Bypass ERO subTLV">
 	  <t>The IPv4 Bypass ERO subTLV (Type 3) describes a Bypass LSP path segment using IPv4 Prefix style of encoding.
@@ -715,7 +776,7 @@
 	  </artwork>
 	</figure>
 
-	<section title="Transport IP addresses and router-IDs">
+	<section title="Transport IP addresses and Router-IDs">
 	  <t><list style="symbols">
 	    <t>R1: 192.168.1.1</t>
 	    <t>R2: 192.168.1.2</t>
@@ -752,7 +813,7 @@
       <section title="One-hop LSP to an adjacent Router">
 	<t>If R1 would advertise a label &lt;N&gt; bound to a one-hop LSP
 	from R1 to R2 it would encode as follows:</t>
-		<t><list>
+	<t><list>
 	  <t>TLV 149: MPLS label &lt;N&gt;, Flags {}:
 	  <list>
 	    <t>IPv4 Prefix ERO subTLV: 192.168.1.2/32, Strict</t>
@@ -1076,6 +1137,13 @@
 
 	<c></c>
 	<c></c>
+	<c>Unnumbered Interface ID ERO</c>
+	<c></c>
+	<c>9</c>
+	<c>&gt;=0</c>
+
+	<c></c>
+	<c></c>
 	<c>IPv4 Prefix Bypass ERO</c>
 	<c></c>
 	<c>3</c>
@@ -1136,6 +1204,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3031.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3107.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3209.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3477.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4206.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4761.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5036.xml"?>
@@ -1144,6 +1213,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5302.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5305.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5311.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6119.xml"?>
     </references>
 
     <references title="Informative References">
