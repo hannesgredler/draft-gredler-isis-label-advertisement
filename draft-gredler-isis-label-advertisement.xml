@@ -95,7 +95,7 @@
       </t>
 
       <t><xref target="I-D.gredler-rtgwg-igp-label-advertisement">
-	Advertising MPLS labels in IGPs advertisement</xref>
+	Advertising MPLS labels in IGPs</xref>
 	describes several use cases where utilizing the flooding machinery
 	of link-state protocols for MPLS label distribution allows
 	to obtain the binding without requiring to establish an LDP/RSVP/LBGP
@@ -130,7 +130,7 @@
       where the consumer of a MPLS label binding may not
       be adjacent to the router that performs the binding. Bringing up an
       explicit session using the existing label distribution protocols between
-      the non-adjacent router that bind the label and the router that
+      the non-adjacent router that binds the label and the router that
       acts as a consumer of this binding is the existing remedy for 
       this dilemma. </t>
 
@@ -542,7 +542,7 @@
       <t>
 	The 'Block Size' value contains the size of the label advertisement.
 	The 'value determines the amount of reachable router endpoints
-	within a given domain.
+	within a given Label block.
 	It MUST contain a value greater or equal than two.
 	Note that the label base is inferred from the Label Value in the
 	carrying MPLS Label TLV.
@@ -942,7 +942,7 @@
 
       </section>
 
-      <section title="Expansion of an 'All Router Block' TLV"
+      <section title="Expansion of an 'All Router Block' subTLV"
 	       anchor="all-rtr-block-resize-example">
 
 	<t>
@@ -954,7 +954,7 @@
 	  and assume that R7 advertises a new ID '15' using an
 	  'All Router ID Map' subTLV. ID '15' is outside of the range
 	  of '10' as per the previous example in 
-	  <xref target="all-rtr-block-resize-example"/>.
+	  <xref target="all-rtr-block-example"/>.
 
 	  Now all the routers in an IGP domain need to advertise one
 	  more label block in order to map the ID '15' to an actual
