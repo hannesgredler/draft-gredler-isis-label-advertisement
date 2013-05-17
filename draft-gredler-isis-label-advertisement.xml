@@ -76,7 +76,7 @@
       </address>
     </author>
 
-    <date day="15" month="May" year="2013"/>
+    <date day="17" month="May" year="2013"/>
 
     <area>Routing</area>
 
@@ -394,13 +394,13 @@
 	  have been borrowed from <xref target="RFC3477"> Section 4</xref>.
 	  </t>
 
-	  <t>The Unnumbered Interface-ID subTLV (Type 9)
+	  <t>The Unnumbered Interface-ID ERO subTLV (Type 9)
 	  describes a path segment that spans over an unnumbered
 	  interface. Unnumbered interfaces are referenced using the
 	  interface index. Interface indices are assigned local to
-	  the router and therefore not globally unique. All elements
-	  in an ERO path need to be globally unique and hence need
-	  to be disambiguated using a globally unique Router-ID.
+	  the router and therefore not unique within a domain. All elements
+	  in an ERO path need to be unique within a domain and hence need
+	  to be disambiguated using a domain unique Router-ID.
 	  </t>
 
 	  <t>The 'Router-ID' field contains the router ID of the router
@@ -518,6 +518,66 @@
   </artwork>
         </figure>
 	</section> <!-- end IPv6 Prefix Bypass ERO subtLV -->
+
+	<section title="Unnumbered Interface ID Bypass ERO subTLV">
+
+	  <t>The appearance and semantics of the 'Unnumbered Interface ID'
+	  have been borrowed from <xref target="RFC3477"> Section 4</xref>.
+	  </t>
+
+	  <t>The Unnumbered Interface-ID Bypass ERO subTLV (Type 10)
+	  describes a Bypass LSP path segment that spans over an unnumbered
+	  interface. Unnumbered interfaces are referenced using the
+	  interface index. Interface indices are assigned local to
+	  the router and therefore not unique within a domain. All elements
+	  in an ERO path need to be unique within a domain and hence need
+	  to be disambiguated using a domain unique Router-ID.
+	  </t>
+
+	  <t>The 'Router-ID' field contains the router ID of the router
+	  which has assigned the 'Interface ID' field. Its purpose is to
+	  disambiguate the 'Interface ID' field from other routers
+	  in the domain.</t>
+
+	  <t>IS-IS supports two Router-ID formats:</t>
+
+	  <t><list style="symbols">
+	    <t><xref target="RFC5305">(TLV 134, 32-Bit format)</xref></t>
+	    <t><xref target="RFC6119">(TLV 140, 128-Bit format)</xref></t>
+	  </list></t>
+
+	  <t>The actual Router-ID format gets derived from the 'Length' field.</t>
+	  <t><list style="symbols">
+	    <t>For 32-Bit Router-ID width the subTLV length is set to 8 octets.</t>
+	    <t>For 128-Bit Router-ID width the subTLV length is set to 20 octets.</t>
+	  </list></t>
+
+	  <t>The 'Interface ID' is the identifier assigned to the link
+	  by the router specified by the router ID.
+	  </t>
+
+	  <t>
+	    The 'L' bit in the subTLV is a one-bit attribute.  If the L bit is
+	    set, then the value of the attribute is 'loose.'  Otherwise, the
+	    value of the attribute is 'strict.'
+	  </t>
+
+        <figure anchor="Unnumbered-Interface-ID-Bypass-ERO-subTLV-figure"
+		title="Unnumbered Interface ID Bypass ERO subTLV format">
+          <artwork>
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |L|    Type     |     Length    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   //                   Router ID (32 or 128 bits)                //
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                     Interface ID (32 bits)                    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  </artwork> 
+        </figure>
+	</section> <!-- end Unnumbered Interface ID Bypass ERO subtLV -->
+
 
 	<section title="Prefix ERO and Prefix Bypass ERO subTLV path semantics">
 	  <t>
@@ -1158,6 +1218,13 @@
 
 	<c></c>
 	<c></c>
+	<c>Unnumbered Interface ID Bypass ERO</c>
+	<c></c>
+	<c>10</c>
+	<c>&gt;=0</c>
+
+	<c></c>
+	<c></c>
 	<c>All Router Block</c>
 	<c></c>
 	<c>6</c>
@@ -1217,7 +1284,7 @@
     </references>
 
     <references title="Informative References">
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-gredler-rtgwg-igp-label-advertisement-04.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-gredler-rtgwg-igp-label-advertisement-05.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-previdi-filsfils-isis-segment-routing-02.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-rtgwg-mrt-frr-architecture-02.xml"?>
     </references>
